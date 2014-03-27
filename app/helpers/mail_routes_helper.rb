@@ -1,0 +1,2 @@
+module MailRoutesHelper
+end
