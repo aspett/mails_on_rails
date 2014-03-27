@@ -1,4 +1,7 @@
 Mails::Application.routes.draw do
+  get "business_management/index"
+  get "business_management/figures"
+  get "business_management/logs"
   get "mail_routes/index"
   get "mail_routes/show"
   get "mail_routes/edit"
