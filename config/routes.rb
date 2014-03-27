@@ -1,4 +1,9 @@
 Mails::Application.routes.draw do
+  get "user/index"
+  get "user/show"
+  get "user/edit"
+  get "user/new"
+  get "user/delete"
   get "mail_routes/index"
   get "mail_routes/show"
   get "mail_routes/edit"
