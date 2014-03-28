@@ -1,5 +1,6 @@
 class MailRoutesController < ApplicationController
   def index
+    @mail_routes = MailRoute.all
   end
 
   def show

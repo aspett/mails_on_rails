@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140328000547) do
+ActiveRecord::Schema.define(version: 20140328004301) do
 
   create_table "mail_routes", force: true do |t|
     t.string   "name"
@@ -30,6 +30,33 @@ ActiveRecord::Schema.define(version: 20140328000547) do
     t.integer  "frequency"
     t.datetime "start_date"
     t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mail_states", force: true do |t|
+    t.integer  "current_location_id"
+    t.integer  "next_destination_id"
+    t.integer  "previous_destination_id"
+    t.integer  "routing_step"
+    t.integer  "state_int"
+    t.integer  "mail_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mails", force: true do |t|
+    t.integer  "origin_id"
+    t.integer  "destination_id"
+    t.integer  "priority"
+    t.datetime "sent_at"
+    t.datetime "received_at"
+    t.integer  "waiting_time"
+    t.float    "weight"
+    t.float    "volume"
+    t.float    "cost"
+    t.float    "price"
+    t.text     "routes_array"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

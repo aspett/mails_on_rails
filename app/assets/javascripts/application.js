@@ -15,3 +15,4 @@
 //= require bootstrap
 //= require home
 //= require_tree .
+//= require dataTables/jquery.dataTables

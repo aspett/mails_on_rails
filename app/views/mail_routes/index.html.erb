@@ -1,2 +1,47 @@
-<h1>MailRoutes#index</h1>
-<p>Find me in app/views/mail_routes/index.html.erb</p>
+<div id="mailroute_container">
+  <%= link_to "Create", new_mail_route_path, class: "btn btn-primary" %>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Label</th>
+        <th>Company</th>
+        <th>Type</th>
+        <th>Max Weight</th>
+        <th>Max Volume</th>
+        <th>Priority</th>
+        <th>Cost/Weight</th>
+        <th>Cost/Volume</th>
+        <th>Price/Weight</th>
+        <th>Price/Volume</th>
+        <th>Origin</th>
+        <th>Dest.</th>
+        <th>Duration</th>
+        <th>Freq.</th>
+        <th>Start Date</th>
+        <th>Active?</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @mail_routes.each do |mail_route| %>
+      <tr>
+        <td><%= mail_route.name %></td>
+        <td><%= mail_route.company %></td>
+        <td><%= mail_route.transport_type %></td>
+        <td><%= mail_route.maximum_weight %></td>
+        <td><%= mail_route.maximum_volume %></td>
+        <td><%= mail_route.priority %></td>
+        <td><%= mail_route.cost_per_weight %></td>
+        <td><%= mail_route.cost_per_volume %></td>
+        <td><%= mail_route.price_per_weight %> </td>
+        <td><%= mail_route.price_per_volume %></td>
+        <td><%= mail_route.origin.name %></td>
+        <td><%= mail_route.destination.name %></td>
+        <td><%= mail_route.duration %></td>
+        <td><%= mail_route.frequency %></td>
+        <td><%= mail_route.start_date %></td>
+        <td><%= mail_route.active? %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

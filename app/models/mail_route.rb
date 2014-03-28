@@ -1,9 +1,9 @@
 class MailRoute < ActiveRecord::Base
   def origin
-    Place.find(@origin_id)
+    Place.find(self.origin_id)
   end
 
   def destination
-    Place.find(@destination_id)
+    Place.find(self.destination_id)
   end
 end
