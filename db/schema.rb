@@ -11,7 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140327235918) do
+ActiveRecord::Schema.define(version: 20140328000547) do
+
+  create_table "mail_routes", force: true do |t|
+    t.string   "name"
+    t.string   "company"
+    t.string   "transport_type"
+    t.float    "maximum_weight"
+    t.float    "maximum_volume"
+    t.integer  "priority"
+    t.float    "cost_per_weight"
+    t.float    "cost_per_volume"
+    t.float    "price_per_weight"
+    t.float    "price_per_volume"
+    t.integer  "origin_id"
+    t.integer  "destination_id"
+    t.integer  "duration"
+    t.integer  "frequency"
+    t.datetime "start_date"
+    t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "places", force: true do |t|
     t.string   "name"
