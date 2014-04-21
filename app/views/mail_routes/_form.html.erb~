@@ -13,7 +13,7 @@
   <div class="col-md-1"></div>
   <div class="col-md-6">
     <div class="col-md-4"> <%= f.input :transport_type,  :as => :radio, :collection => ["Air", "Sea", "Land"] %></div>
-    <div class="col-md-2"> </div>
+    <div class="col-md-4"> </div>
     <div class="col-md-4"> <%= f.input :priority,   :as => :radio, :collection => { "Standard" => 0, "High" => 1 } %></div>
   </div>
 </div>
