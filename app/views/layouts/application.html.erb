@@ -25,6 +25,7 @@
         <li id='mails'><%= link_to "Mail", mails_path %></li>
         <li id='business_management'><%= link_to "Business Management", business_management_path %></li>
         <li id='users'><%= link_to "User Management", users_path %></li>
+        <li id='logout'><%= link_to "Logout", logout_path %></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
@@ -32,11 +33,14 @@
 
 <div class="container actual_container">
   <% if flash.any? %>
-    <% if flash[:error] %>
-      <div class="alert alert-danger"><%= flash[:error] %></div>
-    <% end %>
     <% if flash[:success] %>
       <div class="alert alert-success"><%= flash[:success] %></div>
+    <% end %>
+    <% if flash[:notice] %>
+      <div class="alert alert-info"><%= flash[:notice] %></div>
+    <% end %>
+    <% if flash[:error] %>
+      <div class="alert alert-danger"><%= flash[:error] %></div>
     <% end %>
   <% end %>
 <%= yield %>
