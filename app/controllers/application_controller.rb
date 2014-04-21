@@ -13,17 +13,17 @@ class ApplicationController < ActionController::Base
   end
 
   def check_is_manager
-    if !check_logged_in && !current_user.is_manager?
+    if check_logged_in(true) && !current_user.is_manager?
       redirect_to :root, flash: { error: "Access denied" }
     end
   end
 
-  def check_logged_in
-    unless current_user
-      redirect_to :login
-      return true
+  def check_logged_in(enforce=false)
+    unless current_user #No user
+      redirect_to :login if enforce
+      return false
     end
-    false
+    true
   end
 
   helper_method :current_user

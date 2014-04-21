@@ -21,11 +21,15 @@
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav" id="main_nav">
         <li id='home'><%= link_to "Home",  root_path%></li>
+        <% if check_logged_in %>
         <li id='mail_routes'><%= link_to "Routes", mail_routes_path %></li>
         <li id='mails'><%= link_to "Mail", mails_path %></li>
         <li id='business_management'><%= link_to "Business Management", business_management_path %></li>
         <li id='users'><%= link_to "User Management", users_path %></li>
         <li id='logout'><%= link_to "Logout", logout_path %></li>
+      <% else %>
+        <li id='login'><%= link_to "Login", login_path %></li>
+      <% end %>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
