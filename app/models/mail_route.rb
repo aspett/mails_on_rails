@@ -1,25 +1,40 @@
 class MailRoute < ActiveRecord::Base
-  self.attribute_names.each do |a|
+  self.attribute_names.reject{|a|["id","created_at","updated_at"].include? a}.each do |a|
     validates_presence_of a
   end
   validate :validate_places_exist
 
   def origin
-    Place.find(self.origin_id)
+    begin
+      Place.find(self.origin_id)
+    rescue
+      nil
+    end
   end
 
   def destination
-    Place.find(self.destination_id)
+    begin
+      Place.find(self.destination_id)
+    rescue
+      nil
+    end
   end
 
   private
 
   def validate_places_exist
-    unless Place.where(id: self.origin_id).present?
-      errors.add(:origin_id, "Origin does not exist")
+    if self.origin_id.is_a? String
+      self.origin_id = Place.where(name: self.origin_id).id
+      errors.add(:origin_id, "Origin does not exist") unless self.origin_id.present?
+    else
+      errors.add(:origin_id, "Origin does not exist") unless Place.where(id: self.origin_id).present?
     end
-    unless Place.where(id: self.destination_id).present?
-      errors.add(:destination_id, "Destination does not exist")
+
+    if self.destination_id.is_a? String
+      self.destination_id = Place.where(name: self.destination_id).id
+      errors.add(:destination_id, "Destination does not exist") unless self.destination_id.present?
+    else
+      errors.add(:destination_id, "Destination does not exist") unless Place.where(id: self.destination_id).present?
     end
   end
 end

@@ -10,3 +10,11 @@ $ ->
     "bInfo": false
     "bAutoWidth": false
   )
+  if($('body#mail_routes_new').length > 0 || $('body#mail_routes_create').length > 0)
+    $('input.autocomplete-origin').autocomplete(
+      source: $('div.autocomplete-origin').data('auto')
+    )
+    $('input.autocomplete-destination').autocomplete(
+      source: $('div.autocomplete-origin').data('auto')
+    )
+

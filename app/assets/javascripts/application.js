@@ -16,3 +16,4 @@
 //= require home
 //= require_tree .
 //= require dataTables/jquery.dataTables
+//= require jquery.ui.all

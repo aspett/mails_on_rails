@@ -10,8 +10,8 @@
     <%= f.input :cost_per_volume %>
     <%= f.input :price_per_weight %>
     <%= f.input :price_per_volume %>
-    <%= f.input :origin_id %>
-    <%= f.input :destination_id %>
+    <%= f.input :origin_id, as: :string, wrapper_html: {class: "autocomplete-origin", data: { auto: Place.all.map(&:name) } }, input_html: { class: "autocomplete-origin", value: @mail_route.origin.try(:name) } %>
+    <%= f.input :destination_id, as: :string, input_html: { class: "autocomplete-destination", value: @mail_route.destination.try(:name) } %>
     <%= f.input :duration %>
     <%= f.input :frequency %>
     <%= f.input :start_date %>

@@ -12,6 +12,7 @@ gem 'bootstrap-sass', '~> 3.1.1'
 gem 'formtastic', git: 'git://github.com/justinfrench/formtastic.git', branch: '2.3-stable'
 gem 'formtastic-bootstrap'
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
+gem 'jquery-ui-rails'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
