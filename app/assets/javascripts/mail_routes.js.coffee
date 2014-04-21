@@ -6,7 +6,7 @@ $ ->
     "bPaginate": false
     "bLengthChange": false
     "bFilter": true
-    "bSort": false
+    "bSort": true
     "bInfo": false
     "bAutoWidth": false
   )

@@ -1,4 +1,5 @@
 class MailRoute < ActiveRecord::Base
+  before_create :set_to_active
   self.attribute_names.reject{|a|["id","created_at","updated_at","active"].include? a}.each do |a|
     validates_presence_of a
   end
@@ -36,5 +37,9 @@ class MailRoute < ActiveRecord::Base
     else
       errors.add(:destination_id, "Destination does not exist") unless Place.where(id: self.destination_id).present?
     end
+  end
+
+  def set_to_active
+    self.active = true
   end
 end

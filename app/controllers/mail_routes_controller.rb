@@ -11,7 +11,7 @@ class MailRoutesController < ApplicationController
   end
 
   def new
-    @mail_route = MailRoute.new
+    @mail_route = MailRoute.new(start_date: DateTime.now.at_beginning_of_day + 12.hours)
   end
 
   def create
