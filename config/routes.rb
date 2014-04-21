@@ -9,5 +9,6 @@ Mails::Application.routes.draw do
   # Sets up create/delete route for session controller
   resources :sessions, only: [:create, :delete]
   get "/login" => "sessions#new", as: "login"
+  get "/logout" => "sessions#delete", as: "logout"
   get "/business_management" => "business_management#index", as: "business_management"
 end

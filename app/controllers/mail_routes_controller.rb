@@ -3,9 +3,6 @@ class MailRoutesController < ApplicationController
     @mail_routes = MailRoute.all
   end
 
-  def show
-  end
-
   def edit
     @mail_route = MailRoute.find(params[:id])
   end
@@ -38,7 +35,7 @@ class MailRoutesController < ApplicationController
 
   private
 
-  def mr_params
+  def mr_params #Strong parameters / mail route params
     modified_params = origin_and_destination_from_string!
     modified_params.require(:mail_route).permit!
   end
