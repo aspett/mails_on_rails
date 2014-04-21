@@ -18,7 +18,6 @@ class MailRoutesController < ApplicationController
     if @mail_route.errors.messages.blank?
       redirect_to :mail_routes
     else
-      debugger
       puts "hi"
     end
   end
