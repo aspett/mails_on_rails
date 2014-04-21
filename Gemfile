@@ -9,6 +9,7 @@ gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 gem 'bootstrap-sass', '~> 3.1.1'
+gem 'formtastic', git: 'git://github.com/justinfrench/formtastic.git', branch: '2.3-stable'
 gem 'formtastic-bootstrap'
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 

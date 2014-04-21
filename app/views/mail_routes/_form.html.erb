@@ -1,0 +1,21 @@
+<%= semantic_form_for @mail_route do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :name %>
+    <%= f.input :company %>
+    <%= f.input :transport_type %>
+    <%= f.input :maximum_weight %>
+    <%= f.input :maximum_volume %>
+    <%= f.input :priority %>
+    <%= f.input :cost_per_weight %>
+    <%= f.input :cost_per_volume %>
+    <%= f.input :price_per_weight %>
+    <%= f.input :price_per_volume %>
+    <%= f.input :origin_id %>
+    <%= f.input :destination_id %>
+    <%= f.input :duration %>
+    <%= f.input :frequency %>
+    <%= f.input :start_date %>
+    <%= f.input :active %>
+  <% end %>
+  <%= f.actions %>
+<% end %>
