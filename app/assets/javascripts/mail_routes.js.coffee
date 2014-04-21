@@ -18,3 +18,8 @@ $ ->
       source: $('div.autocomplete-origin').data('auto')
     )
 
+  if($('body#mail_routes_index').length > 0)
+    $('tr.route').on 'click', ->
+      window.location.href = $(this).data('url')
+
+

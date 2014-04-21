@@ -7,6 +7,7 @@ class MailRoutesController < ApplicationController
   end
 
   def edit
+    @mail_route = MailRoute.find(params[:id])
   end
 
   def new
@@ -19,6 +20,16 @@ class MailRoutesController < ApplicationController
       redirect_to :mail_routes
     else
       puts "hi"
+    end
+  end
+
+  def update
+    @mail_route = MailRoute.find(params[:id])
+    if @mail_route.update_attributes(mr_params)
+      redirect_to :mail_routes, flash: { success: "Mail Route successfully updated." }
+    else
+      flash[:error] = "There was an error updating the Mail Route."
+      render :edit
     end
   end
 

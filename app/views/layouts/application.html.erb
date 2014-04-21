@@ -31,6 +31,14 @@
 </div>
 
 <div class="container actual_container">
+  <% if flash.any? %>
+    <% if flash[:error] %>
+      <div class="alert alert-danger"><%= flash[:error] %></div>
+    <% end %>
+    <% if flash[:success] %>
+      <div class="alert alert-success"><%= flash[:success] %></div>
+    <% end %>
+  <% end %>
 <%= yield %>
 
   <%# I am on <%= "#{controller_name}_#{action_name}" %1> %>

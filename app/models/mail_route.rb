@@ -1,5 +1,5 @@
 class MailRoute < ActiveRecord::Base
-  self.attribute_names.reject{|a|["id","created_at","updated_at"].include? a}.each do |a|
+  self.attribute_names.reject{|a|["id","created_at","updated_at","active"].include? a}.each do |a|
     validates_presence_of a
   end
   validate :validate_places_exist

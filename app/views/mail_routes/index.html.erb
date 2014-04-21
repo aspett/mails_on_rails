@@ -3,16 +3,16 @@
   <table class='table'>
     <thead>
       <tr>
-        <th>Label</th>
+        <th>Name</th>
         <th>Company</th>
         <th>Type</th>
         <th>Max Weight</th>
         <th>Max Volume</th>
         <th>Priority</th>
-        <th>Cost/Weight</th>
-        <th>Cost/Volume</th>
-        <th>Price/Weight</th>
-        <th>Price/Volume</th>
+        <th>Cost / Weight</th>
+        <th>Cost / Volume</th>
+        <th>Price / Weight</th>
+        <th>Price / Volume</th>
         <th>Origin</th>
         <th>Dest.</th>
         <th>Duration</th>
@@ -23,7 +23,7 @@
     </thead>
     <tbody>
     <% @mail_routes.each do |mail_route| %>
-      <tr>
+      <tr class='route' data-url='<%= edit_mail_route_url(mail_route) %>'>
         <td><%= mail_route.name %></td>
         <td><%= mail_route.company %></td>
         <td><%= mail_route.transport_type %></td>
