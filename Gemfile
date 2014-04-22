@@ -14,6 +14,9 @@ gem 'formtastic-bootstrap'
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 gem 'jquery-ui-rails'
 
+# Use PQueue
+gem 'pqueue'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
@@ -49,3 +52,5 @@ gem 'bcrypt-ruby', '~> 3.1.2'
 # Use debugger
 gem 'debugger', group: [:development, :test]
 gem 'better_errors', group: [:development, :test]
+
+

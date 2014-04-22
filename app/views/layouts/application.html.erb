@@ -27,6 +27,7 @@
         <li id='business_management'><%= link_to "Business Management", business_management_path %></li>
         <li id='users'><%= link_to "User Management", users_path %></li>
         <li id='logout'><%= link_to "Logout", logout_path %></li>
+        <p class='pull-right navbar-text'>(Logged in as <strong><%= current_user.username %></strong>)</p>
       <% else %>
         <li id='login'><%= link_to "Login", login_path %></li>
       <% end %>

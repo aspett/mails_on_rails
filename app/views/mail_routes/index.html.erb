@@ -15,8 +15,8 @@
         <th>Price / Volume</th>
         <th>Origin</th>
         <th>Dest.</th>
-        <th>Duration</th>
-        <th>Freq.</th>
+        <th>Duration (minutes)</th>
+        <th>Freq. (minutes)</th>
         <th>Start Date</th>
         <th>Active?</th>
       </tr>
@@ -29,7 +29,7 @@
         <td><%= mail_route.transport_type %></td>
         <td><%= mail_route.maximum_weight %></td>
         <td><%= mail_route.maximum_volume %></td>
-        <td><%= mail_route.priority %></td>
+        <td><%= mail_route.priority_string %></td>
         <td><%= mail_route.cost_per_weight %></td>
         <td><%= mail_route.cost_per_volume %></td>
         <td><%= mail_route.price_per_weight %> </td>
