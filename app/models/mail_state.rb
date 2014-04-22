@@ -14,6 +14,6 @@ class MailState < ActiveRecord::Base
   end
 
   def state
-    ["Waiting", "In Transit", "Delivered"][@state_int]
+    ["Waiting", "In Transit", "Delivered"][self.state_int]
   end
 end

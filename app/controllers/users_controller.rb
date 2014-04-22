@@ -39,7 +39,7 @@ class UsersController < ApplicationController
     if user
       user.update_column(:role, "Manager")
     end
-    redirect_to users_path, flash: { success: "Successfully strong user #{user.username}" }
+    redirect_to users_path, flash: { success: "Successfully promoted user #{user.username}" }
   end
 
   def demote

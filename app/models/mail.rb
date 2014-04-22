@@ -1,9 +1,15 @@
 class Mail < ActiveRecord::Base
-  has_one :mail_state
+  has_many :mail_state
   validate :allocate_route
+  before_save :calculate_price_cost
   before_save :format_routes
+  after_save :create_states
   self.attribute_names.reject{|a|["id","created_at","updated_at","sent_at","received_at","waiting_time","cost","price","routes_array"].include? a}.each do |a|
     validates_presence_of a
+  end
+
+  def priority_string
+    ["Standard", "High"][self.priority]
   end
 
   def origin
@@ -20,6 +26,28 @@ class Mail < ActiveRecord::Base
     rescue
       nil
     end
+  end
+
+  def sent_time
+    if self.mail_states && self.mail_states.length >= 2
+      if (Time.current + 12.hours) > self.mail_states[1].start_time
+        return self.mail_states[1].start_time.to_s(:db)
+      end
+    end
+    nil
+  end
+
+  def received_time
+    if self.mail_states && self.mail_states.length >= 2
+      if (Time.current + 12.hours) > self.mail_states.last.start_time
+        return self.mail_states.last.start_time.to_s(:db)
+      end
+    end
+    nil
+  end
+
+  def mail_states
+    self.mail_state
   end
 
   def routes
@@ -40,7 +68,6 @@ class Mail < ActiveRecord::Base
   def format_routes
     self.routes_array = routes.map{|r| r.id}.join(",")
   end
-
 
   def allocate_route
     if @routes.blank?
@@ -82,7 +109,6 @@ class Mail < ActiveRecord::Base
               cost_to_neigh = tuple.cost_to_here + route_cost
               pQueue.push(PQueueTuple.new(destination, tuple.start, route, cost_to_neigh))
             end
-            puts "rawr"
           end
         end        
       end 
@@ -101,7 +127,90 @@ class Mail < ActiveRecord::Base
       end
       route = route.reverse
       self.routes = route
-      self.save!
+    end
+  end
+
+
+  def current_state
+    self.mail_state.select{|state| (Time.now + 12.hours) > state.start_time}.last
+  end
+
+  def current_location
+    if self.routes.length > 0
+      if current_state.routing_step >= self.routes.length
+        return self.routes.last.destination
+      end
+
+      if current_state.routing_step < 0
+        return nil
+      end
+
+      self.routes[current_state.routing_step].origin
+    end
+  end
+
+  private
+
+  def calculate_price_cost
+    cost = 
+    price = 0
+
+    if @routes
+      @routes.each do |r|
+        cost += r.cost(self)
+        price += r.price(self)
+      end
+    end
+
+    self.cost = cost
+    self.price = price
+  end
+
+  def create_states
+    i = 0
+    current_time = (Time.now + 12.hours).to_i
+    MailState.where(mail_id: self.id).each{|s|s.delete}
+    self.routes.each do |route|
+      #Waiting state until departure
+      start_time = current_time
+      end_time = start_time + (route.next_receival_from_time(start_time))
+      MailState.create({
+        current_location_id: route.origin_id,
+        next_destination_id: route.destination_id,
+        routing_step: i,
+        state_int: 0,
+        mail_id: self.id,
+        start_time: Time.at(start_time),
+        end_time: Time.at(end_time)
+      })
+      current_time = end_time
+      start_time = current_time
+      end_time = start_time + route.duration * 60
+      #In transit
+      MailState.create({
+        current_location_id: route.origin_id,
+        next_destination_id: route.destination_id,
+        routing_step: -1,
+        state_int: 1,
+        mail_id: self.id,
+        start_time: Time.at(start_time),
+        end_time: Time.at(end_time)
+      })
+      i += 1
+      current_time = end_time
+      start_time = current_time
+      #Are we done yet?
+      if route.destination_id == self.destination_id
+        MailState.create({
+          current_location_id: route.origin_id,
+          next_destination_id: route.destination_id,
+          routing_step: i,
+          state_int: 2,
+          mail_id: self.id,
+          start_time: Time.at(start_time),
+          end_time: nil
+        })
+      end
     end
   end
 end
