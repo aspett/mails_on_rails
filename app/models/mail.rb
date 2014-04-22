@@ -1,6 +1,6 @@
 class Mail < ActiveRecord::Base
   has_one :mail_state
-  before_save :allocate_route
+  validate :allocate_route
   before_save :format_routes
   self.attribute_names.reject{|a|["id","created_at","updated_at","sent_at","received_at","waiting_time","cost","price","routes_array"].include? a}.each do |a|
     validates_presence_of a
@@ -88,6 +88,11 @@ class Mail < ActiveRecord::Base
       end 
 
       # Collect route in to array
+      if goal.nil?
+        errors.add(:origin_id, "there is no route from that origin to destination")
+        errors.add(:destination_id, "there is no route from that origin to destination")
+        return false
+      end
       current = goal
       route = []
       until current.path_from.nil?
