@@ -43,6 +43,16 @@ class MailRoute < ActiveRecord::Base
     timeToDeparture + (self.duration*60)
   end
 
+  def next_receival_from_time (current_time)
+    current = (current_time)
+    x = (current.to_i - self.start_date.to_i) / (self.frequency*60)
+    timeToDeparture = (x.ceil - x) * (self.frequency*60)
+
+    #The return value is the time to the next departure + the duration of the trip. 
+    #Essentially the next arival at destination 
+    (timeToDeparture + (self.duration*60)).round
+  end
+
   def priority_string
     ["Standard", "High"][self.priority]
   end

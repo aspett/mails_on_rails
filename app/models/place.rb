@@ -1,8 +1,5 @@
 class Place < ActiveRecord::Base
-
   attr_accessor :path_from_route
-
-
   @visited = false
   @path_from = nil
 
