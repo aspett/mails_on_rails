@@ -34,6 +34,24 @@ class UsersController < ApplicationController
     end
   end
 
+  def promote
+    user = User.find(params[:id])
+    if user
+      user.update_column(:role, "Manager")
+    end
+    redirect_to users_path, flash: { success: "Successfully strong user #{user.username}" }
+  end
+
+  def demote
+    user = User.find(params[:id])
+    if user
+      if user.id == current_user.id
+        redirect_to users_path, flash: { error: "Can not demote yourself" } and return
+      end
+      user.update_column(:role, "Clerk")
+    end
+    redirect_to users_path, flash: { success: "Successfully demoted user #{user.username}" }
+  end
   private
 
   def user_params

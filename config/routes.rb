@@ -6,6 +6,8 @@ Mails::Application.routes.draw do
   resources :mails
   resources :mail_routes #index, show, new, create, edit, delete
   resources :users 
+  put "/users/:id/promote" => "users#promote", as: "promote_user"
+  put "/users/:id/demote" => "users#demote", as: "demote_user"
   # Sets up create/delete route for session controller
   resources :sessions, only: [:create, :delete]
   get "/login" => "sessions#new", as: "login"
