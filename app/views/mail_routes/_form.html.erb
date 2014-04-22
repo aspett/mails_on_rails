@@ -1,6 +1,6 @@
 <%= semantic_form_for @mail_route do |f| %>
 <%= f.inputs do %>
-
+    
 <div class="row">
   <div class="col-md-11"> <%= f.input :name, :label => "Name - Reference for this Route" %></div>
 </div>
@@ -20,36 +20,35 @@
 
 <div class="row">
   <div class="col-md-6"> <%= f.input :company %></div>
-    <div class="col-md-6">
-    <div class="col-md-4"> <%= f.input :maximum_weight %></div>
+  <div class="col-md-6">
+    <div class="col-md-4"> <%= f.input :maximum_weight, :label => "Maximum Weight (Kg)"%></div>
     <div class="col-md-2"> </div>
-    <div class="col-md-4"> <%= f.input :maximum_volume %></div>
+    <div class="col-md-4"> <%= f.input :maximum_volume, :label => "Maximum Volume(m3)" %></div>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-md-6"> <%= f.input :duration %></div>
-    <div class="col-md-6">
-    <div class="col-md-4"> <%= f.input :cost_per_weight %></div>
+  <div class="col-md-6"> <%= f.input :duration, :label => "Duration - In minutes" %></div>
+  <div class="col-md-6">
+    <div class="col-md-4"> <%= f.input :cost_per_weight, :label => "Cost per Kg"%></div>
     <div class="col-md-2"> </div>
-    <div class="col-md-4"> <%= f.input :cost_per_volume %></div>
+    <div class="col-md-4"> <%= f.input :cost_per_volume, :label => "Cost per cubic metre"%></div>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-md-6"> <%= f.input :frequency %></div>
-    <div class="col-md-6">
-    <div class="col-md-4"> <%= f.input :price_per_weight %></div>
+  <div class="col-md-6"> <%= f.input :frequency, :label => "Frequency - In minutes"%></div>
+  <div class="col-md-6">
+    <div class="col-md-4"> <%= f.input :price_per_weight, :label => "Price per Kg"%></div>
     <div class="col-md-2"> </div>
-    <div class="col-md-4"> <%= f.input :price_per_volume %></div>
+    <div class="col-md-4"> <%= f.input :price_per_volume, :label => "Price per cubic metre"%></div>
   </div>
 </div>
-
 
 <div class="row">
   <div class="col-md-12"> <%= f.input :start_date %></div>
 </div>
 
-  <% end %>
-  <%= f.actions %>
+<% end %>
+<%= f.actions %>
 <% end %>
