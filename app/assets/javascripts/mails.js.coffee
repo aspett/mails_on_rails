@@ -20,3 +20,5 @@ $ ->
       "bAutoWidth": true
       "aaSorting": [[4, "desc"], [0, "desc"]]
     )
+    $('tr.route').on 'click', ->
+      window.location.href = $(this).data('url')

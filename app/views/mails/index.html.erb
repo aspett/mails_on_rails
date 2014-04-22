@@ -21,7 +21,7 @@
     </thead>
     <tbody>
     <% @mails.each do |mail| %>
-      <tr>
+      <tr class='route' data-url='<%= mail_url(mail) %>'>
       <td><%= mail.id %></td>
       <td><%= mail.origin.name %></td>
       <td><%= mail.destination.name %></td>
