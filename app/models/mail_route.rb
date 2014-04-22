@@ -1,8 +1,11 @@
+require 'pqueue'
 class MailRoute < ActiveRecord::Base
   before_create :set_to_active
+
   self.attribute_names.reject{|a|["id","created_at","updated_at","active"].include? a}.each do |a|
     validates_presence_of a
   end
+  
   validate :validate_places_exist
 
   def origin
@@ -19,6 +22,24 @@ class MailRoute < ActiveRecord::Base
     rescue
       nil
     end
+  end
+
+  def price (mail)
+    mail.weight * self.price_per_weight + mail.volume * self.price_per_volume
+  end
+
+  def cost (mail)
+    mail.weight * self.cost_per_weight + mail.volume * self.cost_per_volume
+  end
+
+  def next_receival
+    current = (Time.now + 12.hours)
+    x = (current.to_i - self.start_date.to_i) / (self.frequency*60)
+    timeToDeparture = (x.ceil - x) * (self.frequency*60)
+
+    #The return value is the time to the next departure + the duration of the trip. 
+    #Essentially the next arival at destination 
+    timeToDeparture + (self.duration*60)
   end
 
   private
@@ -42,4 +63,6 @@ class MailRoute < ActiveRecord::Base
   def set_to_active
     self.active = true
   end
+
+
 end

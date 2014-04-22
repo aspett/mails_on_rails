@@ -1,6 +1,10 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
+
+
+
+# IF YOU COPY ME, MAKE SURE YOU USE $ -> AT START OF THE FILE
 $ ->
   $('.table').dataTable(
     "bPaginate": false

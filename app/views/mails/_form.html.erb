@@ -1,0 +1,10 @@
+<%= semantic_form_for @mail do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :origin_id, as: :string, wrapper_html: {class: "autocomplete-origin", data: { auto: Place.all.map(&:name) } }, input_html: { class: "autocomplete-origin", value: @mail.origin.try(:name) } %>
+    <%= f.input :destination_id, as: :string, input_html: { class: "autocomplete-destination", value: @mail.destination.try(:name) } %>
+    <%= f.input :priority %>
+    <%= f.input :weight %>
+    <%= f.input :volume %>
+  <% end %>
+  <%= f.actions %>
+<% end %>
