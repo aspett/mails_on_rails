@@ -4,6 +4,7 @@ class MailRoute < ActiveRecord::Base
     validates_presence_of a
   end
   validate :validate_places_exist
+  validate :valid_priority
 
   def origin
     begin
@@ -19,6 +20,10 @@ class MailRoute < ActiveRecord::Base
     rescue
       nil
     end
+  end
+
+  def priority_string
+    ["Standard", "High"][self.priority]
   end
 
   private
@@ -37,6 +42,14 @@ class MailRoute < ActiveRecord::Base
     else
       errors.add(:destination_id, "Destination does not exist") unless Place.where(id: self.destination_id).present?
     end
+  end
+
+  def valid_priority
+    if ![0,1].include? self.priority
+      errors.add(:priority, "invalid priority given")
+      return false
+    end
+    true
   end
 
   def set_to_active
