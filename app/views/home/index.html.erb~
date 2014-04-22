@@ -1,4 +1,5 @@
 <h1>Home</h1>
 <p>Find me in app/views/home/index.html.erb</p>
-<background src="/World_Map_Blank.jpg" class="img-responsive" alt="Responsive image">
+<body background="/World_Map_Blank.jpg" class="img-responsive" alt="Responsive image">
+
 
