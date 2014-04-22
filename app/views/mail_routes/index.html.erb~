@@ -1,5 +1,7 @@
 <div id="mailroute_container">
-  <%= link_to "Create", new_mail_route_path, class: "btn btn-primary" %>
+  <%= link_to "Add New Route", new_mail_route_path, class: "btn btn-primary" %>
+  <n>
+  <p> Click on a route to edit it</p>
   <table class='table'>
     <thead>
       <tr>
@@ -15,8 +17,8 @@
         <th>Price / Volume</th>
         <th>Origin</th>
         <th>Dest.</th>
-        <th>Duration</th>
-        <th>Freq.</th>
+        <th>Duration (minutes)</th>
+        <th>Freq. (minutes)</th>
         <th>Start Date</th>
         <th>Active?</th>
       </tr>
@@ -29,7 +31,7 @@
         <td><%= mail_route.transport_type %></td>
         <td><%= mail_route.maximum_weight %></td>
         <td><%= mail_route.maximum_volume %></td>
-        <td><%= mail_route.priority %></td>
+        <td><%= mail_route.priority_string %></td>
         <td><%= mail_route.cost_per_weight %></td>
         <td><%= mail_route.cost_per_volume %></td>
         <td><%= mail_route.price_per_weight %> </td>
@@ -45,5 +47,3 @@
     </tbody>
   </table>
 </div>
-
-<h1>Dickbutt</h1>
