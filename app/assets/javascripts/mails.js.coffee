@@ -10,3 +10,7 @@ $ ->
 	    $('input.autocomplete-destination').autocomplete(
 	      source: $('div.autocomplete-origin').data('auto')
 	    )
+
+  if($('body#mails_index').length > 0)
+    $('tr.route').on 'click', ->
+      window.location.href = $(this).data('url')

@@ -41,16 +41,12 @@ class MailsController < ApplicationController
         place = Place.where(name: mp[:mail][:origin_id])
         if place.present?
           mp[:mail][:origin_id] = place.first.id
-        elsif mp[:mail][:origin_id].length > 0
-          mp[:mail][:origin_id] = Place.create(name: mp[:mail][:origin_id]).id
         end
       end
       if mp[:mail][:destination_id]
         place = Place.where(name: mp[:mail][:destination_id])
         if place.present?
           mp[:mail][:destination_id] = place.first.id
-        elsif mp[:mail][:destination_id].length > 0
-          mp[:mail][:destination_id] = Place.create(name: mp[:mail][:destination_id]).id
         end
       end
     end

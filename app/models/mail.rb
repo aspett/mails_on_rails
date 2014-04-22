@@ -69,8 +69,31 @@ class Mail < ActiveRecord::Base
     self.routes_array = routes.map{|r| r.id}.join(",")
   end
 
+  def places_exist
+    #Do we have and origin and destination?
+      have = true
+      if self.origin.nil?
+        errors.add(:origin_id, "That origin does not exist.")
+        have = false
+      end
+
+      if self.destination.nil?
+        errors.add(:destination_id, "That destination does not exist.")
+        have = false
+      end
+
+      if !have
+        return false
+      end
+      true
+  end
+
   def allocate_route
     if @routes.blank?
+      
+      if !places_exist
+        return false
+      end 
       #Reset all places to visted = false
       all_places = Place.all
       all_places.each {|p| p.visited = false}
