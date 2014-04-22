@@ -72,6 +72,9 @@ class Mail < ActiveRecord::Base
   def allocate_route
     if @routes.blank?
       #Reset all places to visted = false
+      if self.origin_id == self.destination_id
+        errors.add(:destination_id, "can't have same destination as origin") and return
+      end
       all_places = Place.all
       all_places.each {|p| p.visited = false}
 
