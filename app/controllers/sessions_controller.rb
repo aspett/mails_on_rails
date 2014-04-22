@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
       user = User.where(username: params[:username]).first
       if user && user.authenticate(params[:password])
         session[:user_id] = user.id
-        redirect_to root_url, notice: "You're logged in fgt" and return
+        redirect_to root_url, flash: { success: "You have been logged in" } and return
       else
         redirect_to login_path, flash: { error: "Invalid credentials" } and return
       end
@@ -16,5 +16,10 @@ class SessionsController < ApplicationController
   end
 
   def delete
+    if current_user
+      session[:user_id] = nil
+      redirect_to root_url, flash: { notice: "You have been logged out" } and return
+    end
+    redirect_to root_url
   end
 end
