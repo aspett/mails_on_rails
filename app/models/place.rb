@@ -1,25 +1,29 @@
 class Place < ActiveRecord::Base
 
-	@visited = false
-	@path_from = nil
+  attr_accessor :path_from_route
 
-	def visited?
-		@visited
-	end
 
-	def visited= v
-		@visited = v
-	end
+  @visited = false
+  @path_from = nil
 
-	def self.reset_visited
-		self.each{|p| p.visited=false}
-	end
+  def visited?
+    @visited
+  end
 
-	def path_from
-		@path_from
-	end
+  def visited= v
+    @visited = v
+  end
 
-	def path_from= pf
-		@path_from = pf
-	end
+  def self.reset_visited
+    self.each{|p| p.visited=false}
+  end
+
+  def path_from
+    @path_from
+  end
+
+  def path_from= pf
+    @path_from = pf
+  end
+
 end

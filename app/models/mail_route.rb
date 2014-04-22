@@ -5,7 +5,7 @@ class MailRoute < ActiveRecord::Base
   self.attribute_names.reject{|a|["id","created_at","updated_at","active"].include? a}.each do |a|
     validates_presence_of a
   end
-  
+
   validate :validate_places_exist
   validate :valid_priority
 
@@ -41,6 +41,7 @@ class MailRoute < ActiveRecord::Base
     #The return value is the time to the next departure + the duration of the trip. 
     #Essentially the next arival at destination 
     timeToDeparture + (self.duration*60)
+  end
 
   def priority_string
     ["Standard", "High"][self.priority]
