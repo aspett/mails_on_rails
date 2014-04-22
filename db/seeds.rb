@@ -9,3 +9,14 @@
 
 User.create(username: "Manager", password: "manager", password_confirmation: "manager", role: "Manager")
 User.create(username: "Clerk", password: "clerk", password_confirmation: "clerk", role: "Clerk")
+
+dist_centres = ["Auckland", "Hamilton", "Rotorua", "Palmerston North", "Wellington", "Christchurch", "Dunedin"]
+
+dist_centres.each do |c|
+  Place.create(name: c, new_zealand: true)
+end
+
+File.open('db/countries.txt').each do |line|
+  Place.create(name: line.strip, new_zealand: false)
+end
+

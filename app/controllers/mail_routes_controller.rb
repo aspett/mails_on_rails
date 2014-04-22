@@ -47,16 +47,12 @@ class MailRoutesController < ApplicationController
         place = Place.where(name: mp[:mail_route][:origin_id])
         if place.present?
           mp[:mail_route][:origin_id] = place.first.id
-        elsif mp[:mail_route][:origin_id].length > 0
-          mp[:mail_route][:origin_id] = Place.create(name: mp[:mail_route][:origin_id]).id
         end
       end
       if mp[:mail_route][:destination_id]
         place = Place.where(name: mp[:mail_route][:destination_id])
         if place.present?
           mp[:mail_route][:destination_id] = place.first.id
-        elsif mp[:mail_route][:destination_id].length > 0
-          mp[:mail_route][:destination_id] = Place.create(name: mp[:mail_route][:destination_id]).id
         end
       end
     end
