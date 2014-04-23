@@ -1,13 +1,21 @@
 class Mail < ActiveRecord::Base
   has_many :mail_state
-  validate :from_overseas_present
   validate :allocate_route
-  before_save :calculate_price_cost
   before_save :format_routes
+  before_save :format_prices
+  before_save :format_costs
   after_save :create_states
+  after_save :create_event
   self.attribute_names.reject{|a|["id","created_at","updated_at","sent_at","received_at","waiting_time","cost","price","routes_array","from_overseas"].include? a}.each do |a|
     validates_presence_of a
   end
+
+
+  @routes = []
+  @prices = []
+  @costs  = []
+
+
 
   def priority_string
     ["Standard", "High"][self.priority]
@@ -59,6 +67,9 @@ class Mail < ActiveRecord::Base
 
   def routes=(val) #Array of routes
     @routes = val
+    self.prices = @routes.map{|r| self.from_overseas? ? 0 : r.price(self)}
+    self.costs = @routes.map{|r| r.cost(self)}
+    self.calculate_price_cost
     self.save!
   end
 
@@ -67,12 +78,36 @@ class Mail < ActiveRecord::Base
     self.routes_array
   end
 
-  def mail_route_ids
-    self.routes_array.split ","
-  end
-
   def format_routes
     self.routes_array = routes.map{|r| r.id}.join(",")
+  end
+
+  def prices
+    self.persisted_prices ||= ""
+    @prices ||= self.persisted_prices.split(",").map(&:to_f)
+  end
+
+  def prices= (prices)
+    @prices = prices
+    format_prices
+  end
+
+  def format_prices
+    self.persisted_prices = @prices.join(",")
+  end
+
+  def costs
+    self.persisted_costs ||= ""
+    @costs ||= self.persisted_costs.split(",").map(&:to_f)
+  end
+
+  def costs= (costs)
+    @costs = costs
+    format_costs
+  end
+
+  def format_costs
+    self.persisted_costs = @costs.join(",")
   end
 
   def places_exist
@@ -131,7 +166,7 @@ class Mail < ActiveRecord::Base
             goal = tuple.start
           end
 
-          routes_im_dealing_with = all_routes.select{|route| route.origin_id == tuple.start.id && self.weight <= route.maximum_weight && self.volume <= route.maximum_volume}
+          routes_im_dealing_with = all_routes.select{|route| route.origin_id == tuple.start.id }
           routes_im_dealing_with.each do |route|
             destination = all_places.select{|place| place.id == route.destination_id}.first
             if(!destination.visited?)
@@ -183,27 +218,17 @@ class Mail < ActiveRecord::Base
     end
   end
 
+  def calculate_price_cost
+    self.cost = self.costs.sum
+    self.price = self.prices.sum
+  end
+
   private
 
   def from_overseas_present
     if self.from_overseas.nil?
       errors.add(:from_overseas, "must select yes or no")
     end
-  end
-
-  def calculate_price_cost
-    cost = 0
-    price = 0
-
-    if @routes
-      @routes.each do |r|
-        cost += r.cost(self)
-        price += r.price(self)
-      end
-    end
-
-    self.cost = cost
-    self.price = self.from_overseas? ? 0 : price
   end
 
   def create_states
@@ -213,7 +238,7 @@ class Mail < ActiveRecord::Base
     self.routes.each do |route|
       #Waiting state until departure
       start_time = current_time
-      end_time = start_time + (route.next_receival_from_time(start_time) - route.duration * 60)
+      end_time = start_time + (route.next_receival_from_time(start_time))
       MailState.create({
         current_location_id: route.origin_id,
         next_destination_id: route.destination_id,
@@ -252,5 +277,11 @@ class Mail < ActiveRecord::Base
         })
       end
     end
+  end
+
+  def create_event
+    business_event = BusinessEvent.new
+    business_event.set_mail_values(self)
+    business_event.save
   end
 end

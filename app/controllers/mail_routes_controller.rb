@@ -2,11 +2,15 @@ class MailRoutesController < ApplicationController
   before_action :check_logged_in!
 
   def index
-    @mail_routes = MailRoute.all
+    @active_mail_routes = MailRoute.where(active: true)
+    @discontinued_mail_routes = MailRoute.where(active: false)
   end
 
   def edit
     @mail_route = MailRoute.find(params[:id])
+    if !@mail_route.active?
+      redirect_to :mail_routes
+    end
   end
 
   def new
@@ -16,6 +20,9 @@ class MailRoutesController < ApplicationController
   def create
     @mail_route = MailRoute.create(mr_params)
     if @mail_route.errors.messages.blank?
+      b = BusinessEvent.new
+      b.set_new_route_values(@mail_route)
+      b.save!
       redirect_to :mail_routes
     else
       puts "hi"
@@ -25,6 +32,13 @@ class MailRoutesController < ApplicationController
   def update
     @mail_route = MailRoute.find(params[:id])
     if @mail_route.update_attributes(mr_params)
+      
+      if(!@mail_route.previous_changes.empty?)
+        #Save changes as a business event
+        business_event = BusinessEvent.new
+        business_event.set_route_values(@mail_route)
+        business_event.save!
+      end
       redirect_to :mail_routes, flash: { success: "Mail Route successfully updated." }
     else
       flash[:error] = "There was an error updating the Mail Route."
@@ -32,7 +46,17 @@ class MailRoutesController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
+    @mail_route = MailRoute.find(params[:id])
+    if @mail_route.update_column(:active, false)
+      b = BusinessEvent.new
+      b.set_discontinue_values(@mail_route)
+      b.save!
+      redirect_to :mail_routes, flash: { success: "Successfully <strong>discontinued</strong> the route, '#{@mail_route.name}'" }
+    else
+      flash[:error] = "There was an error discontinuing the route."
+      render :edit
+    end
   end
 
   private

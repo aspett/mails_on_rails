@@ -2,9 +2,11 @@
   <div class='same_width_button'><%= link_to "Add New Route", new_mail_route_path, class: "btn btn-primary" %></div>
   <n>
   <p> <br>Click on a route to edit it</p>
+  <h1>Active Routes</h1>
   <table class='table'>
     <thead>
       <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Company</th>
         <th>Type</th>
@@ -20,12 +22,12 @@
         <th>Duration (minutes)</th>
         <th>Freq. (minutes)</th>
         <th>Start Date</th>
-        <th>Active?</th>
       </tr>
     </thead>
     <tbody>
-    <% @mail_routes.each do |mail_route| %>
+    <% @active_mail_routes.each do |mail_route| %>
       <tr class='route' data-url='<%= edit_mail_route_url(mail_route) %>'>
+        <td><%= mail_route.id %></td>
         <td><%= mail_route.name %></td>
         <td><%= mail_route.company %></td>
         <td><%= mail_route.transport_type %></td>
@@ -41,12 +43,20 @@
         <td><%= mail_route.duration %></td>
         <td><%= mail_route.frequency %></td>
         <td><%= mail_route.start_date %></td>
-        <td><%= mail_route.active? %></td>
       </tr>
     <% end %>
     </tbody>
-    <tfoot>
+  </table>
+  <br /><br /><br />
+  <hr />
+  <br />
+  <h1>Discontinued Routes</h1>
+
+
+  <table class='table'>
+    <thead>
       <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Company</th>
         <th>Type</th>
@@ -62,8 +72,29 @@
         <th>Duration (minutes)</th>
         <th>Freq. (minutes)</th>
         <th>Start Date</th>
-        <th>Active?</th>
       </tr>
-    </tfoot>
+    </thead>
+    <tbody>
+    <% @discontinued_mail_routes.each do |mail_route| %>
+      <tr>
+        <td><%= mail_route.id %></td>
+        <td><%= mail_route.name %></td>
+        <td><%= mail_route.company %></td>
+        <td><%= mail_route.transport_type %></td>
+        <td><%= mail_route.maximum_weight %></td>
+        <td><%= mail_route.maximum_volume %></td>
+        <td><%= mail_route.priority_string %></td>
+        <td><%= mail_route.cost_per_weight %></td>
+        <td><%= mail_route.cost_per_volume %></td>
+        <td><%= mail_route.price_per_weight %> </td>
+        <td><%= mail_route.price_per_volume %></td>
+        <td><%= mail_route.origin.name %></td>
+        <td><%= mail_route.destination.name %></td>
+        <td><%= mail_route.duration %></td>
+        <td><%= mail_route.frequency %></td>
+        <td><%= mail_route.start_date %></td>
+      </tr>
+    <% end %>
+    </tbody>
   </table>
 </div>
