@@ -9,10 +9,11 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    if User.where(session[:user_id]).first
-      return @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    user = User.where(id: session[:user_id]).first
+    if !user.present?
+      @current_user = nil
     else
-      return @current_user = nil
+      @current_user ||= user
     end
   end
 

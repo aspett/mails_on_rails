@@ -1,10 +1,11 @@
 class Mail < ActiveRecord::Base
   has_many :mail_state
+  validate :from_overseas_present
   validate :allocate_route
   before_save :calculate_price_cost
   before_save :format_routes
   after_save :create_states
-  self.attribute_names.reject{|a|["id","created_at","updated_at","sent_at","received_at","waiting_time","cost","price","routes_array"].include? a}.each do |a|
+  self.attribute_names.reject{|a|["id","created_at","updated_at","sent_at","received_at","waiting_time","cost","price","routes_array","from_overseas"].include? a}.each do |a|
     validates_presence_of a
   end
 
@@ -179,8 +180,14 @@ class Mail < ActiveRecord::Base
 
   private
 
+  def from_overseas_present
+    if self.from_overseas.nil?
+      errors.add(:from_overseas, "must select yes or no")
+    end
+  end
+
   def calculate_price_cost
-    cost = 
+    cost = 0
     price = 0
 
     if @routes
@@ -191,7 +198,7 @@ class Mail < ActiveRecord::Base
     end
 
     self.cost = cost
-    self.price = price
+    self.price = self.from_overseas? ? 0 : price
   end
 
   def create_states
@@ -201,7 +208,7 @@ class Mail < ActiveRecord::Base
     self.routes.each do |route|
       #Waiting state until departure
       start_time = current_time
-      end_time = start_time + (route.next_receival_from_time(start_time))
+      end_time = start_time + (route.next_receival_from_time(start_time) - route.duration * 60)
       MailState.create({
         current_location_id: route.origin_id,
         next_destination_id: route.destination_id,

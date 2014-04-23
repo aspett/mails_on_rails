@@ -13,7 +13,7 @@ $ ->
   if($('body#mails_index').length > 0)
     $('.table').dataTable(
       "bPaginate": true
-      "bLengthChange": false
+      "bLengthChange": true
       "bFilter": true
       "bSort": true
       "bInfo": true
