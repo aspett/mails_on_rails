@@ -40,6 +40,16 @@ class MailRoutesController < ApplicationController
   end
 
   def delete
+    @mail_route = MailRoute.find(params[:id])
+    if @mail_route.update_column(:active, false)
+      b = BusinessEvent.new
+      b.set_discontinue_values(@mail_route)
+      b.save!
+      redirect_to :mail_routes, flash: { success: "Successfully <strong>discontinued</strong> the route, '#{@mail_route.name}'" }
+    else
+      flash[:error] = "There was an error discontinuing the route."
+      render :edit
+    end
   end
 
   private
