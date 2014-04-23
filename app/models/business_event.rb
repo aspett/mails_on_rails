@@ -20,6 +20,12 @@ class BusinessEvent < ActiveRecord::Base
     self.event_type = 2
     self.details = details_discontinue_string(mail_route)
   end
+  
+  def set_new_route_values(mail_route)
+    self.date = Time.current + 12.hours
+    self.event_type = 3
+    self.details = details_new_route_string(mail_route) 
+  end
 
   private
 
@@ -29,7 +35,7 @@ class BusinessEvent < ActiveRecord::Base
 
   def details_route_string(mail_route)
     rejections = ["id", "transport_type", "priority", "origin_id", "destination_id", "duration", "frequency", "start_date" ,"created_at", "updated_at"]
-    changes = "Route ID: '#{mail_route.id}'. Changed: "
+    changes = "Route ID: '#{mail_route.id}', "
     mail_route.previous_changes.reject{|a| rejections.include? a}.each do |k,v|
       changes <<"#{k}: '#{v[0]}' -> '#{v[1]}', "
     end
@@ -38,10 +44,20 @@ class BusinessEvent < ActiveRecord::Base
 
   def details_discontinue_string(mail_route)
     attributes = ["name", "origin", "destination", "company"]
-    str = "Route ID: '#{mail_route.id}'. Discontinued: "
+    str = "Route ID: '#{mail_route.id}', "
     attributes.each do |attr_name|
       str << "#{attr_name}: '#{mail_route.send(attr_name).to_s}', "
     end
     str[0..-3]
   end
+
+  def details_new_route_string(mail_route)
+    attributes = ["name", "origin", "destination", "company"]
+    str = "Route ID: '#{mail_route.id}', "
+    attributes.each do |attr_name|
+      str << "#{attr_name}: '#{mail_route.send(attr_name).to_s}', "
+    end
+    str[0..-3]
+  end
+
 end
