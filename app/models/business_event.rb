@@ -32,16 +32,16 @@ class BusinessEvent < ActiveRecord::Base
     changes = "Route ID: '#{mail_route.id}'. Changed: "
     mail_route.previous_changes.reject{|a| rejections.include? a}.each do |k,v|
           changes <<"#{k}: '#{v[0]}' -> '#{v[1]}', "
-        end
-        changes[0..-3]
+    end
+    changes[0..-3]
   end
 
   def details_discontinue_string(mail_route)
-    rejections = ["id", "transport_type", "priority", "origin_id", "destination_id", "duration", "frequency", "start_date" ,"created_at", "updated_at"]
-    changes = "Changed: "
-    mail_route.previous_changes.reject{|a| rejections.include? a}.each do |k,v|
-          changes <<"#{k}: '#{v[0]}' -> '#{v[1]}', "
-        end
-        changes[0..-3]
+    attributes = ["name", "origin", "destination", "company"]
+    str = "Route ID: '#{mail_route.id}'. Discontinued: "
+    attributes.each do |attr_name|
+      str << "#{attr_name}: '#{mail_route.send(attr_name)}', "
+    end
+    str[0..-3]
   end
 end
