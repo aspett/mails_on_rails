@@ -23,4 +23,8 @@ class Place < ActiveRecord::Base
     @path_from = pf
   end
 
+  def to_s
+    self.name
+  end
+
 end

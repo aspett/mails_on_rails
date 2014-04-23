@@ -6,7 +6,7 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
-<body id="<%= "#{controller_name}_#{action_name}" %>">
+<body id="<%= "#{controller_name}_#{action_name}" %>" data-controller="<%= "#{controller_name}" %>">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -24,7 +24,13 @@
         <% if check_logged_in %>
         <li id='mail_routes'><%= link_to "Routes", mail_routes_path %></li>
         <li id='mails'><%= link_to "Mail", mails_path %></li>
-        <li id='business_management'><%= link_to "Business Management", business_management_path %></li>
+        <li id='business_management' class='dropdown'>
+        <%= link_to raw("Business Management <b class='caret'></b>"), "#", data: { toggle: "dropdown" }, class: "dropdown-toggle" %>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Business Figures", business_figures_path %></li>
+            <li><%= link_to "Business Logs", business_logs_path %></li>
+          </ul>
+        </li>
         <li id='users'><%= link_to "User Management", users_path %></li>
         <li id='logout'><%= link_to "Logout", logout_path %></li>
         <p class='pull-right navbar-text'>(Logged in as <strong><%= current_user.username %></strong>)</p>

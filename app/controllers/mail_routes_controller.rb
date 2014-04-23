@@ -2,11 +2,15 @@ class MailRoutesController < ApplicationController
   before_action :check_logged_in!
 
   def index
-    @mail_routes = MailRoute.all
+    @active_mail_routes = MailRoute.where(active: true)
+    @discontinued_mail_routes = MailRoute.where(active: false)
   end
 
   def edit
     @mail_route = MailRoute.find(params[:id])
+    if !@mail_route.active?
+      redirect_to :mail_routes
+    end
   end
 
   def new
@@ -39,7 +43,7 @@ class MailRoutesController < ApplicationController
     end
   end
 
-  def delete
+  def destroy
     @mail_route = MailRoute.find(params[:id])
     if @mail_route.update_column(:active, false)
       b = BusinessEvent.new

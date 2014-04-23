@@ -6,7 +6,7 @@ class Mail < ActiveRecord::Base
   before_save :format_costs
   after_save :create_states
   after_save :create_event
-  self.attribute_names.reject{|a|["id","created_at","updated_at","sent_at","received_at","waiting_time","cost","price","routes_array"].include? a}.each do |a|
+  self.attribute_names.reject{|a|["id","created_at","updated_at","sent_at","received_at","waiting_time","cost","price","routes_array","from_overseas"].include? a}.each do |a|
     validates_presence_of a
   end
 
