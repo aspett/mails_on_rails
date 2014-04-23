@@ -59,11 +59,16 @@ class Mail < ActiveRecord::Base
 
   def routes=(val) #Array of routes
     @routes = val
+    self.save!
   end
 
   def mail_routes
     format_routes
     self.routes_array
+  end
+
+  def mail_route_ids
+    self.routes_array.split ","
   end
 
   def format_routes
