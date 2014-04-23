@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140423024219) do
+ActiveRecord::Schema.define(version: 20140423014046) do
 
   create_table "business_events", force: true do |t|
     t.datetime "date"
@@ -70,6 +70,8 @@ ActiveRecord::Schema.define(version: 20140423024219) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "from_overseas"
+    t.text     "persisted_prices"
+    t.text     "persisted_costs"
   end
 
   create_table "places", force: true do |t|

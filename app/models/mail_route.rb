@@ -57,6 +57,10 @@ class MailRoute < ActiveRecord::Base
     ["Standard", "High"][self.priority]
   end
 
+  def self.priority_string(priority)
+    ["Standard", "High"][priority]
+  end
+
   private
 
   def validate_places_exist
