@@ -1,5 +1,5 @@
 <div id="mailroute_container">
-  <div class='same_width_button'><%= link_to "New Mail", new_mail_path, class: "btn btn-primary" %></div>
+  <%= link_to "New Mail", new_mail_path, class: "btn btn-primary" %>
   <br />
   <br />
   <table class='table'>
@@ -9,7 +9,6 @@
         <th>Origin</th>
         <th>Destination</th>
         <th>Priority</th>
-        <th>From overseas?</th>
         <th>State</th>
         <th>Current location</th>
         <th>Sent at</th>
@@ -27,7 +26,6 @@
       <td><%= mail.origin.name %></td>
       <td><%= mail.destination.name %></td>
       <td><%= mail.priority_string %></td>
-      <td><%= mail.from_overseas? ? "Yes" : "No" %></td>
       <td><%= mail.current_state.state %></td>
       <td><%= mail.current_location.try(:name) %></td>
       <td><%= mail.sent_time %></td> 
