@@ -1,2 +1,56 @@
 <h1>BusinessManagement#figures</h1>
 <p>Find me in app/views/business_management/figures.html.erb</p>
+
+<table class='table'>
+  <tbody>
+    <tr>
+      <td>Total Revenue</td>
+      <td><%= number_to_currency @total_revenue %></td>
+    </tr>
+    <tr>
+      <td>Total Expenditure</td>
+      <td><%= number_to_currency @total_expenditure %></td>
+    </tr>
+    <tr>
+      <td>Total Events Processed</td>
+      <td><%= @total_events %></td>
+    </tr>
+    <tr>
+      <td>Total Mail Sent</td>
+      <td><%= @mail_number %></td>
+    </tr>
+    <tr>
+      <td>Total Mail Volume</td>
+      <td><%= @mail_volume %> m<sup>3</sup></td>
+    </tr>
+    <tr>
+      <td>Total Mail Weight</td>
+      <td><%= @mail_weight %> kg</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<table class='table data_table'>
+  <thead>
+    <tr>
+      <th>Origin</th>
+      <th>Destination</th>
+      <th>Transport Type</th>
+      <th>Priority</th>
+      <th>Average Delivery Time</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @average_times.each do |row, value| %>
+    <tr>
+      <td><%= row[0] %></td>
+      <td><%= row[1] %></td>
+      <td><%= row[2] %></td>
+      <td><%= row[3] %></td>
+      <td><%= format_time(value) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+

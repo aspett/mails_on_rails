@@ -5,6 +5,7 @@
   <table class='table'>
     <thead>
       <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Company</th>
         <th>Type</th>
@@ -26,6 +27,7 @@
     <tbody>
     <% @mail_routes.each do |mail_route| %>
       <tr class='route' data-url='<%= edit_mail_route_url(mail_route) %>'>
+        <td><%= mail_route.id %></td>
         <td><%= mail_route.name %></td>
         <td><%= mail_route.company %></td>
         <td><%= mail_route.transport_type %></td>

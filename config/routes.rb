@@ -1,6 +1,6 @@
 Mails::Application.routes.draw do
   get "business_management/index"
-  get "business_management/figures"
+  get "business_management/figures", as: "business_figures"
   get "business_management/logs"
   root 'home#index'
   resources :mails
