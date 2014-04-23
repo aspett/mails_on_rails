@@ -1,4 +1,6 @@
 class MailsController < ApplicationController
+  before_action :check_logged_in!
+
   def index
     @mails = Mail.all
   end

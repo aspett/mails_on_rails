@@ -31,9 +31,14 @@ class ApplicationController < ActionController::Base
     true
   end
 
+  def check_logged_in!
+    check_logged_in(true)
+  end
+
   helper_method :current_user
   helper_method :check_is_manager
   helper_method :check_logged_in
+  helper_method :check_logged_in!
 
 
 end
