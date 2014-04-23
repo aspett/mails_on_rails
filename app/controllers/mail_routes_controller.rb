@@ -1,4 +1,6 @@
 class MailRoutesController < ApplicationController
+  before_action :check_logged_in!
+
   def index
     @mail_routes = MailRoute.all
   end

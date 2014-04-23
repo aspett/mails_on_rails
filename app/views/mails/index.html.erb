@@ -9,6 +9,7 @@
         <th>Origin</th>
         <th>Destination</th>
         <th>Priority</th>
+        <th>From overseas?</th>
         <th>State</th>
         <th>Current location</th>
         <th>Sent at</th>
@@ -26,6 +27,7 @@
       <td><%= mail.origin.name %></td>
       <td><%= mail.destination.name %></td>
       <td><%= mail.priority_string %></td>
+      <td><%= mail.from_overseas? ? "Yes" : "No" %></td>
       <td><%= mail.current_state.state %></td>
       <td><%= mail.current_location.try(:name) %></td>
       <td><%= mail.sent_time %></td> 
