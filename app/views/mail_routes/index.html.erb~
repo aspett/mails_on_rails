@@ -1,7 +1,7 @@
 <div id="mailroute_container">
   <%= link_to "Add New Route", new_mail_route_path, class: "btn btn-primary" %>
   <n>
-  <p> Click on a route to edit it</p>
+  <p> <br>Click on a route to edit it</p>
   <table class='table'>
     <thead>
       <tr>

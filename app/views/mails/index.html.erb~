@@ -1,5 +1,5 @@
 <div id="mailroute_container">
-  <div class='same_width_button'><%= link_to "New Mail", new_mail_path, class: "btn btn-primary" %></div>
+  <%= link_to "New Mail", new_mail_path, class: "btn btn-primary" %>
   <br />
   <br />
   <table class='table'>

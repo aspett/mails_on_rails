@@ -17,7 +17,7 @@
 }
 
 .same_width_button {
-  width: 120px;
+  width: 125px;
   a {
     width: 100%;
   }

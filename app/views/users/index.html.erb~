@@ -1,4 +1,4 @@
-<h1>User Management</h1>
+<h1>User</h1>
 <div class='same_width_button'><%= link_to "Create User", new_user_path, class: "btn btn-primary" %></div>
 <table class='table'>
   <thead>
