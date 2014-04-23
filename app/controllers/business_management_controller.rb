@@ -8,5 +8,6 @@ class BusinessManagementController < ApplicationController
   end
 
   def logs
+  	@business_events = BusinessEvent.all
   end
 end

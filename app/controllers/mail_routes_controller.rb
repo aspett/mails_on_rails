@@ -25,6 +25,13 @@ class MailRoutesController < ApplicationController
   def update
     @mail_route = MailRoute.find(params[:id])
     if @mail_route.update_attributes(mr_params)
+      
+      if(!@mail_route.previous_changes.empty?)
+        #Save changes as a business event
+        business_event = BusinessEvent.new
+        business_event.set_route_values(@mail_route)
+        business_event.save
+      end
       redirect_to :mail_routes, flash: { success: "Mail Route successfully updated." }
     else
       flash[:error] = "There was an error updating the Mail Route."
