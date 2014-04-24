@@ -3,6 +3,24 @@ class MailsController < ApplicationController
 
   def index
     @mails = Mail.all
+    required_places_ids = []
+
+    @mail_data = []
+    Mail.all.each do |m|
+      @mail_data.push m.to_hash
+      required_places_ids.push m.origin_id, m.destination_id
+    end
+    @mail_data = Mail.all.map(&:to_hash)
+
+    @route_data = []
+    MailRoute.where(active: true).each do |m|
+      @route_data.push m.attributes.reject{|a| ["created_at", "updated_at"].include? a}
+      required_places_ids.push m.origin_id, m.destination_id
+    end
+
+    @place_data = required_places_ids.uniq.map{|p| Place.find(p).attributes.reject{|a| ["created_at", "updated_at"].include? a}}
+    @current_time = (Time.now + 12.hours).to_i
+
   end
 
   def show

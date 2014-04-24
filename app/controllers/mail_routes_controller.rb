@@ -20,9 +20,6 @@ class MailRoutesController < ApplicationController
   def create
     @mail_route = MailRoute.create(mr_params)
     if @mail_route.errors.messages.blank?
-      b = BusinessEvent.new
-      b.set_new_route_values(@mail_route)
-      b.save!
       redirect_to :mail_routes
     else
       puts "hi"

@@ -13,4 +13,5 @@ Mails::Application.routes.draw do
   get "/login" => "sessions#new", as: "login"
   get "/logout" => "sessions#delete", as: "logout"
   get "/business_management" => "business_management#index", as: "business_management"
+  get "/gen_lat_lon" => "home#generate"
 end

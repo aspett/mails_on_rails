@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140423024219) do
+ActiveRecord::Schema.define(version: 20140424012004) do
 
   create_table "business_events", force: true do |t|
     t.datetime "date"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20140423024219) do
     t.datetime "updated_at"
     t.datetime "start_time"
     t.datetime "end_time"
+    t.integer  "route_id"
   end
 
   create_table "mails", force: true do |t|
@@ -79,6 +80,8 @@ ActiveRecord::Schema.define(version: 20140423024219) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "new_zealand"
+    t.float    "lat"
+    t.float    "lon"
   end
 
   create_table "users", force: true do |t|

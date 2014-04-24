@@ -1,4 +1,7 @@
 <div id="mailroute_container">
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+<div id="all_data" data-mail='<%= raw(@mail_data.to_json) %>' data-route='<%= raw(@route_data.to_json) %>' data-place='<%= raw(@place_data.to_json) %>' data-time='<%= @current_time %>'></div>
+<div id="map-canvas" data-routes='<%= raw(@lines) %>'></div>
   <div class='same_width_button'><%= link_to "New Mail", new_mail_path, class: "btn btn-primary" %></div>
   <br />
   <br />

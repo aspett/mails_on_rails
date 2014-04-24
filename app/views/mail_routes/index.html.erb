@@ -42,7 +42,7 @@
         <td><%= mail_route.destination.name %></td>
         <td><%= mail_route.duration %></td>
         <td><%= mail_route.frequency %></td>
-        <td><%= mail_route.start_date %></td>
+        <td><%= mail_route.start_date.to_s(:db) %></td>
       </tr>
     <% end %>
     </tbody>
@@ -92,7 +92,7 @@
         <td><%= mail_route.destination.name %></td>
         <td><%= mail_route.duration %></td>
         <td><%= mail_route.frequency %></td>
-        <td><%= mail_route.start_date %></td>
+        <td><%= mail_route.start_date.to_s(:db) %></td>
       </tr>
     <% end %>
     </tbody>

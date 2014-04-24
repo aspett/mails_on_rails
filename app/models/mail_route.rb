@@ -1,6 +1,7 @@
 require 'pqueue'
 class MailRoute < ActiveRecord::Base
   before_create :set_to_active
+  after_create :make_new_route_business_event
 
   self.attribute_names.reject{|a|["id","created_at","updated_at","active"].include? a}.each do |a|
     validates_presence_of a
@@ -91,5 +92,12 @@ class MailRoute < ActiveRecord::Base
     self.active = true
   end
 
+  private
+
+  def make_new_route_business_event
+    business_event = BusinessEvent.new
+    business_event.set_new_route_values(self)
+    business_event.save!
+  end
 
 end

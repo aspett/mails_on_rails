@@ -22,3 +22,5 @@ $ ->
     )
     $('tr.route').on 'click', ->
       window.location.href = $(this).data('url')
+
+    

@@ -15,7 +15,12 @@ class Mail < ActiveRecord::Base
   @prices = []
   @costs  = []
 
-
+  def to_hash
+    hash = self.attributes.reject{|a| ["created_at","updated_at"].include? a}
+    hash["states"] = self.mail_states.map(&:to_hash)
+    hash["current_state"] = self.current_state.id
+    hash
+  end
 
   def priority_string
     ["Standard", "High"][self.priority]
@@ -238,10 +243,11 @@ class Mail < ActiveRecord::Base
     self.routes.each do |route|
       #Waiting state until departure
       start_time = current_time
-      end_time = start_time + (route.next_receival_from_time(start_time))
+      end_time = start_time + (route.next_receival_from_time(start_time) - (route.duration*60))
       MailState.create({
         current_location_id: route.origin_id,
         next_destination_id: route.destination_id,
+        route_id: route.id,
         routing_step: i,
         state_int: 0,
         mail_id: self.id,
@@ -255,6 +261,7 @@ class Mail < ActiveRecord::Base
       MailState.create({
         current_location_id: route.origin_id,
         next_destination_id: route.destination_id,
+        route_id: route.id,
         routing_step: -1,
         state_int: 1,
         mail_id: self.id,
@@ -269,6 +276,7 @@ class Mail < ActiveRecord::Base
         MailState.create({
           current_location_id: route.origin_id,
           next_destination_id: route.destination_id,
+          route_id: route.id,
           routing_step: i,
           state_int: 2,
           mail_id: self.id,
