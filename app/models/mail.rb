@@ -22,6 +22,10 @@ class Mail < ActiveRecord::Base
     hash
   end
 
+  def created_at_formatted
+    (self.created_at + 12.hours).to_s(:db)
+  end
+
   def priority_string
     ["Standard", "High"][self.priority]
   end
@@ -171,7 +175,7 @@ class Mail < ActiveRecord::Base
             goal = tuple.start
           end
 
-          routes_im_dealing_with = routes_im_dealing_with.select{|route| route.origin_id == tuple.start.id }
+          routes_im_dealing_with = all_routes.select{|route| route.origin_id == tuple.start.id && self.weight <= route.maximum_weight && self.volume <= route.maximum_volume && route.active? }
           routes_im_dealing_with.each do |route|
             destination = all_places.select{|place| place.id == route.destination_id}.first
             if(!destination.visited?)
@@ -256,7 +260,7 @@ class Mail < ActiveRecord::Base
       end_time = start_time + (route.next_receival_from_time(start_time) - (route.duration*60))
       MailState.create({
         current_location_id: route.origin_id,
-        next_destination_id: route.destination_id,
+        next_destination_id: route.origin_id,
         route_id: route.id,
         routing_step: i,
         state_int: 0,
@@ -284,7 +288,7 @@ class Mail < ActiveRecord::Base
       #Are we done yet?
       if route.destination_id == self.destination_id
         MailState.create({
-          current_location_id: route.origin_id,
+          current_location_id: route.destination_id,
           next_destination_id: route.destination_id,
           route_id: route.id,
           routing_step: i,

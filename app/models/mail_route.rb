@@ -9,6 +9,7 @@ class MailRoute < ActiveRecord::Base
 
   validate :validate_places_exist
   validate :valid_priority
+  validate :no_same_places
 
   def origin
     begin
@@ -80,6 +81,12 @@ class MailRoute < ActiveRecord::Base
     end
   end
 
+  def no_same_places
+    if (self.origin_id == self.destination_id)
+      errors.add(:origin_id, "origin and destination can't be same")
+      errors.add(:destination_id, "origin and destination can't be same")
+    end
+  end
   def valid_priority
     if ![0,1].include? self.priority
       errors.add(:priority, "invalid priority given")

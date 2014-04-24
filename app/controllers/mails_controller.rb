@@ -32,10 +32,10 @@ class MailsController < ApplicationController
   end
 
   def show
+    @mail = Mail.find(params[:id])
   end
 
   def edit
-    @mail = MailRoute.find(params[:id])
   end
 
   def new

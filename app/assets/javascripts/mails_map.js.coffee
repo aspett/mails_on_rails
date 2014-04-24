@@ -53,18 +53,17 @@ $ ->
     new_state = past_states[past_states.length - 1]
     if mail.current_state != new_state.id
       mail["current_state"] = new_state.id
-      new_state["current_duration"] = 0
 
 
 
 
   line_symbol = ( 
     path: google.maps.SymbolPath.CIRCLE 
-    scale: 3
+    scale: 4
   )
   arrow_symbol = (
     path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
-    scale: 2
+    scale: 1.5
   )
   polyLines = []
 
@@ -77,7 +76,7 @@ $ ->
       geodesic: true
       strokeColor: '#000000'
       strokeOpacity: 0.9
-      strokeWeight: 2
+      strokeWeight: 1
       route_id: route.id
       icons: []
     )
@@ -86,6 +85,8 @@ $ ->
 
   animateThings = ->
     setInterval ->
+      for mail in mails
+        update_mail_current_state(mail)
       for poly in polyLines
         route_mails = mails_for_route(poly.route_id)
         icons = []
@@ -95,15 +96,16 @@ $ ->
         )
         
         for mail in route_mails
-          update_mail_current_state(mail)
           curdur = mail_current_duration(mail)
           totdur = mail_total_duration(mail)
           percent = (curdur / totdur) * 100
           percent = "#{percent}%"
           m_state = mail_state(mail, mail.current_state)
           m_state["current_duration"] += 1
+          console.log "#{percent} - #{mail.current_state}"
           if m_state.state_int == 0
             percent = "0%"
+            console.log "RESET"
           if m_state.state_int == 2
             percent = "100%"
 
