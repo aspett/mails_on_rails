@@ -102,10 +102,8 @@ $ ->
           percent = "#{percent}%"
           m_state = mail_state(mail, mail.current_state)
           m_state["current_duration"] += 1
-          console.log "#{percent} - #{mail.current_state}"
           if m_state.state_int == 0
             percent = "0%"
-            console.log "RESET"
           if m_state.state_int == 2
             percent = "100%"
 
