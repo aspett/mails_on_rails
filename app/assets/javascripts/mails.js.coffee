@@ -8,7 +8,7 @@ $ ->
       source: $('div.autocomplete-origin').data('auto')
     )
     $('input.autocomplete-destination').autocomplete(
-      source: $('div.autocomplete-origin').data('auto')
+      source: $('div.autocomplete-destination').data('auto')
     )
   if($('body#mails_index').length > 0)
     $('.table').dataTable(

@@ -1,7 +1,7 @@
 <%= semantic_form_for @mail do |f| %>
   <%= f.inputs do %>
-    <%= f.input :origin_id, as: :string, wrapper_html: {class: "autocomplete-origin", data: { auto: Place.all.map(&:name) } }, input_html: { class: "autocomplete-origin", value: @mail.origin.try(:name) } %>
-    <%= f.input :destination_id, as: :string, input_html: { class: "autocomplete-destination", value: @mail.destination.try(:name) } %>
+    <%= f.input :origin_id, as: :string, wrapper_html: {class: "autocomplete-origin", data: { auto: Place.where(new_zealand: true).map(&:name) } }, input_html: { class: "autocomplete-origin", value: @mail.origin.try(:name) } %>
+    <%= f.input :destination_id, as: :string, wrapper_html: { class:"autocomplete-destination", data: { auto: Place.all.map(&:name) } }, input_html: { class: "autocomplete-destination", value: @mail.destination.try(:name) } %>
     <%= f.input :priority, as: :select, collection: {"Standard" => 0, "High" => 1}, include_blank: false %>
     <%= f.input :weight %>
     <%= f.input :volume %>

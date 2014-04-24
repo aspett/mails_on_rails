@@ -58,7 +58,14 @@ $ ->
 
 
 
-  line_symbol = {path: google.maps.SymbolPath.CIRCLE}
+  line_symbol = ( 
+    path: google.maps.SymbolPath.CIRCLE 
+    scale: 3
+  )
+  arrow_symbol = (
+    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
+    scale: 2
+  )
   polyLines = []
 
   for route in routes
@@ -70,6 +77,7 @@ $ ->
       geodesic: true
       strokeColor: '#000000'
       strokeOpacity: 0.9
+      strokeWeight: 2
       route_id: route.id
       icons: []
     )
@@ -81,9 +89,13 @@ $ ->
       for poly in polyLines
         route_mails = mails_for_route(poly.route_id)
         icons = []
+        icons.push(
+          icon: arrow_symbol
+          offset: '50%'
+        )
+        
         for mail in route_mails
           update_mail_current_state(mail)
-          console.log mail
           curdur = mail_current_duration(mail)
           totdur = mail_total_duration(mail)
           percent = (curdur / totdur) * 100

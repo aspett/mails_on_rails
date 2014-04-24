@@ -151,7 +151,7 @@ class Mail < ActiveRecord::Base
 
       #Find the routes that begin with the mail's origin 
       all_routes = MailRoute.all 
-      routes_im_dealing_with = all_routes.select{|route| route.origin_id == self.origin_id && self.weight <= route.maximum_weight && self.volume <= route.maximum_volume && route.active?}
+      routes_im_dealing_with = all_routes.select{|route| route.origin_id == self.origin_id && self.weight <= route.maximum_weight && self.volume <= route.maximum_volume}
 
       #initialise priority queue with appropriate routes using the heuristic associate with priority. 0 = low = price, 1 = high = speed
       start = all_places.select{|place| place.id == self.origin_id}.first
@@ -171,7 +171,7 @@ class Mail < ActiveRecord::Base
             goal = tuple.start
           end
 
-          routes_im_dealing_with = all_routes.select{|route| route.origin_id == tuple.start.id  && self.weight <= route.maximum_weight && self.volume <= route.maximum_volume && route.active? }
+          routes_im_dealing_with = all_routes.select{|route| route.origin_id == tuple.start.id }
           routes_im_dealing_with.each do |route|
             destination = all_places.select{|place| place.id == route.destination_id}.first
             if(!destination.visited?)
@@ -226,6 +226,16 @@ class Mail < ActiveRecord::Base
   def calculate_price_cost
     self.cost = self.costs.sum
     self.price = self.prices.sum
+  end
+
+  def still_needs_route? (route)
+    id = route.id
+    states_requiring = self.mail_states.select{|s| s.route_id == id}.map(&:id)
+    last_state = states_requiring.max
+    unless last_state.nil?
+      return true if self.current_state.id < last_state
+    end
+    false
   end
 
   private

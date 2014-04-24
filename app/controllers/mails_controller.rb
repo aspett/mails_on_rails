@@ -13,7 +13,15 @@ class MailsController < ApplicationController
     @mail_data = Mail.all.map(&:to_hash)
 
     @route_data = []
-    MailRoute.where(active: true).each do |m|
+    mr = MailRoute.all.select do |mr|
+      show_route = false
+      show_route = true if mr.active?
+      Mail.all.each do |m|
+        show_route = true if m.still_needs_route? mr
+      end
+      show_route
+    end
+    mr.each do |m|
       @route_data.push m.attributes.reject{|a| ["created_at", "updated_at"].include? a}
       required_places_ids.push m.origin_id, m.destination_id
     end

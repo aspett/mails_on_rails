@@ -49,7 +49,7 @@ class MailRoutesController < ApplicationController
       b = BusinessEvent.new
       b.set_discontinue_values(@mail_route)
       b.save!
-      redirect_to :mail_routes, flash: { success: "Successfully <strong>discontinued</strong> the route, '#{@mail_route.name}'" }
+      redirect_to :mail_routes, flash: { success: "Successfully discontinued the route, '#{@mail_route.name}'" }
     else
       flash[:error] = "There was an error discontinuing the route."
       render :edit
