@@ -1,10 +1,11 @@
 @import "bootstrap";
 @import "bootstrap/theme";
 @import "session";
-@import "mail_routes";
-@import "mails";
 @import "dataTables/jquery.dataTables";
 @import "jquery.ui.all";
+@import "mail_routes";
+@import "mails";
+@import "business_management";
 // @import "formtastic-bootstrap";
 
 .actual_container {
@@ -22,5 +23,9 @@
   a {
     width: 100%;
   }
+}
+
+.alert-sm {
+  padding: 10px;
 }
 

@@ -25,3 +25,15 @@ $ ->
       "bAutoWidth": true
       "aaSorting": [[0, "desc"]]
     )
+    $('.data_table_2').dataTable(
+      "bPaginate": true
+      "bLengthChange": true
+      "bFilter": true
+      "bSort": true
+      "bInfo": true
+      "bAutoWidth": true
+      "aoColumns": [null, null,null,null,null,null,{ "sType": "numeric", "sClass": "align-right" }, {"bSortable": false}]
+      "aaSorting": [[6, "asc"]]
+    )
+    $('tr.route').on 'click', ->
+      window.location.href = $(this).data('url')

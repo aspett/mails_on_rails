@@ -1,3 +1,26 @@
 // Place all the styles related to the business_management controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$critical_color: #FFBDBD;
+
+.route-critical.odd {
+  background-color: $critical_color !important;
+  .sorting_1, .sorting_2, .sorting_3, .sorting_4, .sorting_5 {
+    background-color: darken($critical_color,2%) !important;
+  }
+}
+.route-critical.even {
+  background-color: lighten($critical_color,5%) !important;
+  .sorting_1, .sorting_2, .sorting_3, .sorting_4, .sorting_5 {
+    background-color: lighten($critical_color,3%) !important;
+  }
+}
+
+.align-right {
+  text-align: right;
+}
+
+.clear-background {
+  background-color: white;
+}

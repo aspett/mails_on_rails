@@ -17,6 +17,9 @@ gem 'jquery-ui-rails'
 # Use PQueue
 gem 'pqueue'
 
+# Dump data to seed
+gem 'seed_dump'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 

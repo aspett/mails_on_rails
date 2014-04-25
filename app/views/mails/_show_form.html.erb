@@ -12,33 +12,3 @@
   <% end %>
 <% end %>
 
-<table class='table'>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>State</th>
-      <th>Location at State</th>
-      <th>Location after State</th>
-      <th>Route Name</th>
-      <th>Start time</th>
-      <th>End time</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @mail.mail_states.each do |state| %>
-    <% if state.id == @mail.current_state.id %>
-      <tr class='highlighted'>
-    <% else %>
-      <tr>
-    <% end %>
-      <td><%= state.id %></td>
-      <td><%= state.state %></td>
-      <td><%= state.current_location.name %></td>
-      <td><%= state.next_destination.name %></td>
-      <td><%= MailRoute.find(state.route_id).name %></td>
-      <td><%= state.start_time.to_s(:db) %></td>
-      <td><%= state.end_time.try(:to_s, :db) %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
