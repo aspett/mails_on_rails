@@ -2,6 +2,7 @@ class BusinessManagementController < ApplicationController
   before_action :check_logged_in!
 
   def index
+    redirect_to business_figures_url
   end
 
   def figures
