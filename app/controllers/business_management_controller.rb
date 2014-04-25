@@ -16,9 +16,10 @@ class BusinessManagementController < ApplicationController
     @mail_weight = b.mail_weight
     @average_times = b.average_times
     @route_profits = b.route_profits.select{|k,v| k.active?}
+    @route_mail_counts = b.route_mail_counts
   end
 
   def logs
-  	@business_events = BusinessEvent.all
+    @business_events = BusinessEvent.all
   end
 end

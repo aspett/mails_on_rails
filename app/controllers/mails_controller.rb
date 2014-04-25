@@ -47,7 +47,7 @@ class MailsController < ApplicationController
     @mail = Mail.new(mail_params)
     # begin
       if @mail.save
-        redirect_to mail_path(@mail)
+        redirect_to mail_path(@mail), flash: {}
       else
         errors = @mail.errors.reject{|e,m| [:persisted_costs, :persisted_prices].include? e}
         flash[:error] = raw("There were #{errors.count} error(s):")
