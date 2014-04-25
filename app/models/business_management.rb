@@ -56,12 +56,17 @@ class BusinessManagement
     @profits
   end
 
+  def route_mail_counts
+    @route_to_number_mail
+  end
+
 
   private
 
   def collect_data
     @route_to_cost = {}
     @route_to_price = {}
+    @route_to_number_mail = {}
     @route_times = {}
     @route_durations = {}
     @num_routes = 0
@@ -87,6 +92,8 @@ class BusinessManagement
     @route_to_cost[key] += cost
     @route_to_price[key] = 0 if !@route_to_price.has_key? key
     @route_to_price[key] += price
+    @route_to_number_mail[key] = 0 if !@route_to_number_mail.has_key? key
+    @route_to_number_mail[key] += 1
   end
 
   def increment_delivery_time (route)

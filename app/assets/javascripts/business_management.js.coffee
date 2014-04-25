@@ -32,8 +32,18 @@ $ ->
       "bSort": true
       "bInfo": true
       "bAutoWidth": true
-      "aoColumns": [null, null,null,null,null,null,{ "sType": "numeric", "sClass": "align-right" }, {"bSortable": false}]
+      "aoColumns": [null, null,null,null,null,null,{ "sType": "numeric-comma", "sClass": "align-right" }, {"bSortable": false}]
       "aaSorting": [[6, "asc"]]
+    )
+    $('.data_table_3').dataTable(
+      "bPaginate": true
+      "bLengthChange": true
+      "bFilter": true
+      "bSort": true
+      "bInfo": true
+      "bAutoWidth": true
+      "aoColumns": [null, null,null,null,null,null,{ "sType": "numeric-comma", "sClass": "align-right" }, {"bSortable": false}]
+      "aaSorting": [[6, "desc"]]
     )
     $('tr.route').on 'click', ->
       window.location.href = $(this).data('url')

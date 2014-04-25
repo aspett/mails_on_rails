@@ -25,7 +25,7 @@ $ ->
 
   if($('body#mails_show').length > 0)
     $('.table').dataTable(
-      "bPaginate": true
+      "bPaginate": false
       "bLengthChange": true
       "bFilter": true
       "bSort": true
