@@ -160,8 +160,7 @@ class Mail < ActiveRecord::Base
 
       optimum_wv_goal = optimum_wv_a_star
       if(optimum_wv_goal.nil?)
-        errors.add(:origin, "There is no route to that destination from this origin.")
-        errors.add(:destination, "There is no route to from that origin to this destination.")
+        errors.add(:base, "There is no route from #{self.origin} to #{self.destination}")
         return false
       end
       
@@ -170,8 +169,8 @@ class Mail < ActiveRecord::Base
 
       # Collect route in to array
       if restrictive_goal.nil?
-        errors.add(:weight, "The maximum weight for a route from that origin to that destination is #{optimum_wv_goal.lowest_weight_to_here}kg")
-        errors.add(:volume, "The maximum volume for a route from that origin to that destination is #{optimum_wv_goal.lowest_volume_to_here}m3")
+        errors.add(:base, "The maximum weight for a route from #{self.origin} to #{self.destination} is #{optimum_wv_goal.lowest_weight_to_here}kg")
+        errors.add(:base, "The maximum volume for a route from #{self.origin} to #{self.destination} is #{optimum_wv_goal.lowest_volume_to_here}m3")
 
         return false
       end
@@ -249,7 +248,6 @@ class Mail < ActiveRecord::Base
     
 
     while !pQueue.empty? do
-      #debugger
       tuple = pQueue.pop
 
       if(!tuple.start.visited?)
@@ -288,7 +286,6 @@ class Mail < ActiveRecord::Base
         end
       end        
     end 
-    debugger
     goal
   end
 
