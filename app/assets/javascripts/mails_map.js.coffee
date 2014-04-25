@@ -62,6 +62,8 @@ $ ->
       path: google.maps.SymbolPath.CIRCLE 
       scale: 4
       clickable: false
+      fillOpacity: 1
+      strokeOpacity: 1
     )
     arrow_symbol = (
       path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
@@ -78,8 +80,8 @@ $ ->
         path: path
         geodesic: true
         strokeColor: '#000000'
-        strokeOpacity: 0.9
-        strokeWeight: 1
+        strokeOpacity: 1
+        strokeWeight: 0.9
         route_id: route.id
         icons: []
         clickable: false
@@ -96,7 +98,7 @@ $ ->
           icons = []
           icons.push(
             icon: arrow_symbol
-            offset: '50%'
+            offset: '100%'
           )
           
           for mail in route_mails

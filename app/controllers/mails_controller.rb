@@ -1,4 +1,5 @@
 class MailsController < ApplicationController
+  include ActionView::Helpers::OutputSafetyHelper
   before_action :check_logged_in!
 
   def index
@@ -43,10 +44,24 @@ class MailsController < ApplicationController
   end
 
   def create
-    @mail = Mail.create(mail_params)
-    if @mail.errors.messages.blank?
-      redirect_to :mails
-    end
+    @mail = Mail.new(mail_params)
+    # begin
+      if @mail.save
+        redirect_to mail_path(@mail)
+      else
+        errors = @mail.errors.reject{|e,m| [:persisted_costs, :persisted_prices].include? e}
+        flash[:error] = raw("There were #{errors.count} error(s):")
+        errors.each do |e,m|
+          if e == :base
+            flash[:error] += raw("<br /> -- #{m}")
+          else
+            flash[:error] += raw("<br /> -- #{e.to_s} #{m}")
+          end
+        end
+      end
+    # rescue ActiveRecord::RecordInvalid
+      # We need to manually catch this error for some reason
+    # end
   end
 
   def update

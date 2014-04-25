@@ -24,7 +24,7 @@ $ ->
     )
 
   if($('body#mail_routes_index').length > 0)
-    $('tr.route').on 'click', ->
+    $('body').on 'click', 'tr.route', ->
       window.location.href = $(this).data('url')
 
 

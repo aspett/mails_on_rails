@@ -1,6 +1,7 @@
 class Mail < ActiveRecord::Base
   has_many :mail_state
   validate :allocate_route
+  validate :no_overseas_mail
   before_save :format_routes
   before_save :format_prices
   before_save :format_costs
@@ -79,7 +80,7 @@ class Mail < ActiveRecord::Base
     self.prices = @routes.map{|r| self.from_overseas? ? 0 : r.price(self)}
     self.costs = @routes.map{|r| r.cost(self)}
     self.calculate_price_cost
-    self.save!
+    self.save
   end
 
   def mail_routes
@@ -138,8 +139,14 @@ class Mail < ActiveRecord::Base
       true
   end
 
+  def no_overseas_mail
+    if !self.origin.new_zealand?
+      errors.add(:origin_id, "all mail must originate from within New Zealand.")
+    end
+  end
+
   def allocate_route
-    if @routes.blank?
+    if @routes.blank? && self.weight && self.volume
       
       #Validate the places exist
       if !places_exist
@@ -160,6 +167,7 @@ class Mail < ActiveRecord::Base
       if restrictive_goal.nil?
         errors.add(:weight, "The weight donaaa weerk")
         errors.add(:volume, "The valium donaaa weerk")
+
         return false
       end
       current = restrictive_goal

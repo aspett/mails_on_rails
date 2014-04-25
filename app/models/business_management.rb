@@ -47,6 +47,15 @@ class BusinessManagement
     average_times
   end
 
+  def route_profits
+    collect_data if @route_to_cost.blank? or @route_to_price.blank?
+    @profits = {}
+    @route_to_cost.each do |k,v|
+      @profits[k] = (@route_to_price[k] - v)
+    end
+    @profits
+  end
+
 
   private
 
@@ -74,10 +83,10 @@ class BusinessManagement
   end
 
   def increment_cost_price (key, price, cost)
-    @route_to_cost[key.to_s] = 0 if !@route_to_cost.has_key? key.to_s
-    @route_to_cost[key.to_s] += cost
-    @route_to_price[key.to_s] = 0 if !@route_to_price.has_key? key.to_s
-    @route_to_price[key.to_s] += price
+    @route_to_cost[key] = 0 if !@route_to_cost.has_key? key
+    @route_to_cost[key] += cost
+    @route_to_price[key] = 0 if !@route_to_price.has_key? key
+    @route_to_price[key] += price
   end
 
   def increment_delivery_time (route)
