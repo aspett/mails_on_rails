@@ -151,18 +151,18 @@ class Mail < ActiveRecord::Base
       end
 
 
+      optimum_wv_goal = optimum_wv_a_star
+      
 
-      goal = restrictive_a_star
-
-
+      restrictive_goal = restrictive_a_star
 
       # Collect route in to array
-      if goal.nil?
-        errors.add(:origin_id, "there is no route from that origin to destination")
-        errors.add(:destination_id, "there is no route from that origin to destination")
+      if restrictive_goal.nil?
+        errors.add(:weight, "The weight donaaa weerk")
+        errors.add(:volume, "The valium donaaa weerk")
         return false
       end
-      current = goal
+      current = restrictive_goal
       route = []
       until current.path_from.nil?
         route.push current.path_from_route
@@ -174,13 +174,14 @@ class Mail < ActiveRecord::Base
   end
 
   def restrictive_a_star
+    goal = nil
     #Reset all places to visted = false
     all_places = Place.all
     all_places.each {|p| p.visited = false}
     
     #Find the routes that begin with the mail's origin 
     all_routes = MailRoute.all 
-    routes_im_dealing_with = all_routes.select{|route| route.origin_id == self.origin_id && self.weight <= route.maximum_weight && self.volume <= route.maximum_volume  && route.active?}
+    routes_im_dealing_with = all_routes.select{|route| route.origin_id == self.origin_id && self.weight < route.maximum_weight && self.volume < route.maximum_volume && route.active?}
 
     #initialise priority queue with appropriate routes using the heuristic associate with priority. 0 = low = price, 1 = high = speed
     start = all_places.select{|place| place.id == self.origin_id}.first
@@ -215,6 +216,66 @@ class Mail < ActiveRecord::Base
         end
       end        
     end 
+    goal
+  end
+
+  def optimum_wv_a_star
+    goal = nil
+    #Reset all places to visted = false
+    all_places = Place.all
+    all_places.each {|p| p.visited = false}
+    
+    #Find the routes that begin with the mail's origin 
+    all_routes = MailRoute.all 
+    routes_im_dealing_with = all_routes.select{|route| route.origin_id == self.origin_id && route.active?}
+
+    #initialise priority queue with appropriate routes using the heuristic associate with priority. 0 = low = price, 1 = high = speed
+    start = all_places.select{|place| place.id == self.origin_id}.first
+    pQueue = PQueue.new([PQueueTuple.new(start, nil, nil, 0)]){|a,b| a.cost_compared_to(b) < b.cost_compared_to(a)}
+
+    
+
+    while !pQueue.empty? do
+      #debugger
+      tuple = pQueue.pop
+
+      if(!tuple.start.visited?)
+        tuple.start.visited = true
+        tuple.start.path_from = tuple.from
+        tuple.start.path_from_route = tuple.from_route
+
+        if(!tuple.from_route.nil?)
+          route_from = MailRoute.find(tuple.from_route)
+          if(!tuple.from.nil?)            
+            tuple.start.lowest_weight_to_here = [route_from.maximum_weight, tuple.from.lowest_weight_to_here].min
+            tuple.start.lowest_volume_to_here = [route_from.maximum_volume, tuple.from.lowest_volume_to_here].min
+          else
+            tuple.start.lowest_weight_to_here = route_from.maximum_weight
+            tuple.start.lowest_volume_to_here = route_from.maximum_volume
+          end
+        else
+          tuple.start.lowest_weight_to_here = 999999
+          tuple.start.lowest_volume_to_here = 999999
+        end
+
+        if(tuple.start.id == self.destination_id)
+            goal = tuple.start
+        end
+
+        routes_im_dealing_with = all_routes.select{|route| route.origin_id == tuple.start.id && route.active? }
+        routes_im_dealing_with.each do |route|
+          destination = all_places.select{|place| place.id == route.destination_id}.first
+          if(!destination.visited?)
+            
+          route_cost = (self.weight < route.maximum_weight ? 0 : self.weight - route.maximum_weight)+(self.volume < route.maximum_volume ? 0 : self.volume - route.maximum_volume)
+          
+          cost_to_neigh = [tuple.cost_to_here, route_cost].max
+          pQueue.push(PQueueTuple.new(destination, tuple.start, route, cost_to_neigh))
+          end
+        end
+      end        
+    end 
+    debugger
     goal
   end
 

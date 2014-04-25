@@ -27,4 +27,20 @@ class Place < ActiveRecord::Base
     self.name
   end
 
+  def lowest_weight_to_here= w
+    @lowest_weight_to_here = w
+  end
+
+  def lowest_weight_to_here
+    @lowest_weight_to_here
+  end
+
+  def lowest_volume_to_here= v
+    @lowest_volume_to_here = v
+  end
+
+  def lowest_volume_to_here
+    @lowest_volume_to_here
+  end
+
 end
