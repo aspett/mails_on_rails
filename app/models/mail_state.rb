@@ -2,15 +2,15 @@ class MailState < ActiveRecord::Base
   belongs_to :mail
 
   def current_location
-    Place.find(@current_location_id)
+    Place.find(self.current_location_id)
   end
 
   def next_destination
-    Place.find(@next_destination_id)
+    Place.find(self.next_destination_id)
   end
 
   def previous_destination
-    Place.find(@previous_destination_id)
+    Place.find(self.previous_destination_id)
   end
 
   def state
@@ -24,6 +24,7 @@ class MailState < ActiveRecord::Base
     hash["full_duration"] = end_time.to_i - start_time.to_i
     hash["current_duration"] = ((Time.current + 12.hours) - start_time)
     hash["current_duration"] = [hash["current_duration"],hash["full_duration"]].min
+    hash["current_duration"] = [0, hash["current_duration"]].max
     hash
   end
 end

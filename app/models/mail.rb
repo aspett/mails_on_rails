@@ -22,6 +22,10 @@ class Mail < ActiveRecord::Base
     hash
   end
 
+  def created_at_formatted
+    (self.created_at + 12.hours).to_s(:db)
+  end
+
   def priority_string
     ["Standard", "High"][self.priority]
   end
@@ -146,11 +150,11 @@ class Mail < ActiveRecord::Base
         errors.add(:destination_id, "can't have same destination as origin") and return
       end
 
-      
+
 
       goal = restrictive_a_star
 
-      
+
 
       # Collect route in to array
       if goal.nil?
@@ -176,7 +180,7 @@ class Mail < ActiveRecord::Base
     
     #Find the routes that begin with the mail's origin 
     all_routes = MailRoute.all 
-    routes_im_dealing_with = all_routes.select{|route| route.origin_id == self.origin_id && self.weight <= route.maximum_weight && self.volume <= route.maximum_volume}
+    routes_im_dealing_with = all_routes.select{|route| route.origin_id == self.origin_id && self.weight <= route.maximum_weight && self.volume <= route.maximum_volume  && route.active?}
 
     #initialise priority queue with appropriate routes using the heuristic associate with priority. 0 = low = price, 1 = high = speed
     start = all_places.select{|place| place.id == self.origin_id}.first
@@ -196,7 +200,7 @@ class Mail < ActiveRecord::Base
           goal = tuple.start
         end
 
-        routes_im_dealing_with = all_routes.select{|route| route.origin_id == tuple.start.id }
+        routes_im_dealing_with = all_routes.select{|route| route.origin_id == tuple.start.id  && self.weight <= route.maximum_weight && self.volume <= route.maximum_volume && route.active? }
         routes_im_dealing_with.each do |route|
           destination = all_places.select{|place| place.id == route.destination_id}.first
           if(!destination.visited?)
@@ -266,7 +270,7 @@ class Mail < ActiveRecord::Base
       end_time = start_time + (route.next_receival_from_time(start_time) - (route.duration*60))
       MailState.create({
         current_location_id: route.origin_id,
-        next_destination_id: route.destination_id,
+        next_destination_id: route.origin_id,
         route_id: route.id,
         routing_step: i,
         state_int: 0,
@@ -294,7 +298,7 @@ class Mail < ActiveRecord::Base
       #Are we done yet?
       if route.destination_id == self.destination_id
         MailState.create({
-          current_location_id: route.origin_id,
+          current_location_id: route.destination_id,
           next_destination_id: route.destination_id,
           route_id: route.id,
           routing_step: i,

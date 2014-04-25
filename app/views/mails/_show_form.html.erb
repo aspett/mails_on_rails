@@ -1,0 +1,44 @@
+<%= semantic_form_for @mail do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :origin_id, as: :string, wrapper_html: {class: "autocomplete-origin"}, input_html: { class: "autocomplete-origin", value: @mail.origin.try(:name), disabled: true } %>
+  <%= f.input :destination_id, as: :string, wrapper_html: { class:"autocomplete-destination"}, input_html: { class: "autocomplete-destination", value: @mail.destination.try(:name), disabled: true} %>
+    <%= f.input :priority, as: :select, collection: {"Standard" => 0, "High" => 1}, include_blank: false, input_html: { disabled: true } %>
+    <%= f.input :weight, input_html: { disabled: true } %>
+    <%= f.input :volume, input_html: { disabled: true } %>
+    <%= f.input :from_overseas, label: "Did this mail originate from overseas?", as: :radio, include_blank: false, required: true, input_html: { disabled: true } %>
+    <%= f.input :cost, input_html: { disabled: true } %>
+    <%= f.input :price, input_html: { disabled: true } %>
+    <%= f.input :created_at_formatted, input_html: { disabled: true }, label: "Processed time" %>
+  <% end %>
+<% end %>
+
+<table class='table'>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>State</th>
+      <th>Location at State</th>
+      <th>Location after State</th>
+      <th>Route Name</th>
+      <th>Start time</th>
+      <th>End time</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @mail.mail_states.each do |state| %>
+    <% if state.id == @mail.current_state.id %>
+      <tr class='highlighted'>
+    <% else %>
+      <tr>
+    <% end %>
+      <td><%= state.id %></td>
+      <td><%= state.state %></td>
+      <td><%= state.current_location.name %></td>
+      <td><%= state.next_destination.name %></td>
+      <td><%= MailRoute.find(state.route_id).name %></td>
+      <td><%= state.start_time.to_s(:db) %></td>
+      <td><%= state.end_time.try(:to_s, :db) %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -23,4 +23,12 @@ $ ->
     $('tr.route').on 'click', ->
       window.location.href = $(this).data('url')
 
-    
+  if($('body#mails_show').length > 0)
+    $('.table').dataTable(
+      "bPaginate": true
+      "bLengthChange": true
+      "bFilter": true
+      "bSort": true
+      "bInfo": true
+      "bAutoWidth": true
+    )
