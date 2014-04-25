@@ -85,7 +85,7 @@
       <td><%= route.destination.name %></td>
       <td><%= route.transport_type %></td>
       <td><%= route.priority_string %></td>
-      <td><%= number_to_currency(value, {unit: ''}) %></td>
+      <td><%= number_to_currency(value, {unit: '', delimiter: ''}) %></td>
       <td>
         <%= link_to "Show / Edit", edit_mail_route_path(route), class: 'btn btn-primary btn-xs' %>
         <%= link_to "Discontinue", mail_route_path(route), method: :delete, class: 'btn btn-danger btn-xs' %>
