@@ -72,22 +72,62 @@ $ ->
     )
     polyLines = []
 
+    service = new google.maps.DirectionsService
     for route in routes
-      origin = get_place(route.origin_id)
-      destination = get_place(route.destination_id)
-      path = [ll(origin.lat, origin.lon), ll(destination.lat, destination.lon)]
-      r = new google.maps.Polyline(
-        path: path
-        geodesic: true
-        strokeColor: '#000000'
-        strokeOpacity: 1
-        strokeWeight: 0.9
-        route_id: route.id
-        icons: []
-        clickable: false
-      )
-      r.setMap(map)
-      polyLines.push(r)
+      path_for_route = (route) ->
+        origin = get_place(route.origin_id)
+        destination = get_place(route.destination_id)
+        console.log route.transport_type
+        if route.transport_type != "Land"
+          color = if route.transport_type == "Air" then "#FF6200" else "#8000FF"
+          r = new google.maps.Polyline(
+            path: [ll(origin.lat,origin.lon),ll(destination.lat,destination.lon)]
+            geodesic: true
+            strokeColor: color
+            strokeOpacity: 1
+            strokeWeight: 1.5
+            route_id: route.id
+            icons: []
+            clickable: false
+            map: map
+          )
+          polyLines.push(r)
+        else
+          service.route((
+            origin: ll(origin.lat, origin.lon)
+            destination: ll(destination.lat, destination.lon)
+            travelMode: google.maps.DirectionsTravelMode.DRIVING
+          ), (result, status) ->
+            if (status == google.maps.DirectionsStatus.OK)
+              path = new google.maps.MVCArray()
+              for i in [0...result.routes[0].overview_path.length]
+                path.push(result.routes[0].overview_path[i])
+              polyLines.push(new google.maps.Polyline(
+                path: path
+                geodesic: true
+                strokeColor: '#006319'
+                strokeOpacity: 1
+                strokeWeight: 1.5
+                route_id: route.id
+                icons: []
+                clickable: false
+                map: map
+              ))
+            else
+              r = new google.maps.Polyline(
+                path: [ll(origin.lat,origin.lon),ll(destination.lat,destination.lon)]
+                geodesic: true
+                strokeColor: '#ff0000'
+                strokeOpacity: 1
+                strokeWeight: 0.9
+                route_id: route.id
+                icons: []
+                clickable: false
+                map: map
+              )
+              polyLines.push(r)
+        )
+      path_for_route(route)
 
     animateThings = ->
       setInterval ->

@@ -2,7 +2,14 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
 <div id="all_data" data-mail='<%= raw(@mail_data.to_json) %>' data-route='<%= raw(@route_data.to_json) %>' data-place='<%= raw(@place_data.to_json) %>' data-time='<%= @current_time %>'></div>
 <div id="map-canvas" data-routes='<%= raw(@lines) %>'></div>
-  <div class='same_width_button'><%= link_to "New Mail", new_mail_path, class: "btn btn-primary" %></div>
+  <div class='same_width_button'><%= link_to "New Mail", new_mail_path, class: "btn btn-primary" %></div> 
+  <legend id='legend'>
+    <ul>
+      <li><span class='label label-success'>Land</span></li>
+      <li><span class='label label-warning'>Air</span></li>
+      <li><span class='label label-sea' width="100px">Sea</span></li>
+    </ul>
+  </legend>
   <br />
   <br />
   <table class='table'>
