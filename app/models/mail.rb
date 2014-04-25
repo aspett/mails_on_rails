@@ -154,19 +154,24 @@ class Mail < ActiveRecord::Base
       end      
       
       if self.origin_id == self.destination_id
-        errors.add(:destination_id, "can't have same destination as origin") and return
+        errors.add(:destination_id, "Can't have same destination as origin") and return
       end
 
 
       optimum_wv_goal = optimum_wv_a_star
+      if(optimum_wv_goal.nil?)
+        errors.add(:origin, "There is no route to that destination from this origin.")
+        errors.add(:destination, "There is no route to from that origin to this destination.")
+        return false
+      end
       
 
       restrictive_goal = restrictive_a_star
 
       # Collect route in to array
       if restrictive_goal.nil?
-        errors.add(:weight, "The weight donaaa weerk")
-        errors.add(:volume, "The valium donaaa weerk")
+        errors.add(:weight, "The maximum weight for a route from that origin to that destination is #{optimum_wv_goal.lowest_weight_to_here}kg")
+        errors.add(:volume, "The maximum volume for a route from that origin to that destination is #{optimum_wv_goal.lowest_volume_to_here}m3")
 
         return false
       end
@@ -189,7 +194,7 @@ class Mail < ActiveRecord::Base
     
     #Find the routes that begin with the mail's origin 
     all_routes = MailRoute.all 
-    routes_im_dealing_with = all_routes.select{|route| route.origin_id == self.origin_id && self.weight < route.maximum_weight && self.volume < route.maximum_volume && route.active?}
+    routes_im_dealing_with = all_routes.select{|route| route.origin_id == self.origin_id && self.weight <= route.maximum_weight && self.volume <= route.maximum_volume && route.active?}
 
     #initialise priority queue with appropriate routes using the heuristic associate with priority. 0 = low = price, 1 = high = speed
     start = all_places.select{|place| place.id == self.origin_id}.first
