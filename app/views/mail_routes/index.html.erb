@@ -1,10 +1,12 @@
 <div id="mailroute_container">
   <div class='same_width_button'>
     <%= link_to "Add New Route", new_mail_route_path, class: "btn btn-primary" %>
+    <%= link_to "Toggle visualisation", '#', id: "show-visual", class: "btn btn-success" %>
   </div>
   <br />
   <br />
   <br />
+  <div id="chart" data-names='<%= @names %>' data-matrix='<%= @matrix %>' style='display:none'><div id="visualisation"><h3>Route connections</h3><h5>*Connection on graph indicates a route between 2 places one way or the other</h5></div></div>
   <div class='alert alert-info alert-sm'>
     <span class='glyphicon glyphicon-hand-right'></span>
      You can view and edit Routes in more detail by clicking on them
@@ -19,7 +21,7 @@
         <th>Type</th>
         <th>Priority</th>
         <th>Origin</th>
-        <th>Dest.</th>
+        <th>Destination</th>
         <th>Duration (minutes)</th>
         <th>Freq. (minutes)</th>
         <th>Start Date</th>
