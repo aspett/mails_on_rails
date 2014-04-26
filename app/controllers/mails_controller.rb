@@ -23,11 +23,15 @@ class MailsController < ApplicationController
       show_route
     end
     mr.each do |m|
-      @route_data.push m.attributes.reject{|a| ["created_at", "updated_at"].include? a}
+      attributes = m.attributes
+      attributes["name"] = attributes["name"].gsub "'", "&quot;"
+      attributes["company"] = attributes["company"].gsub "'", "&quot;"
+      @route_data.push attributes.reject{|a| ["created_at", "updated_at"].include? a}
       required_places_ids.push m.origin_id, m.destination_id
     end
 
     @place_data = required_places_ids.uniq.map{|p| Place.find(p).attributes.reject{|a| ["created_at", "updated_at"].include? a}}
+    @place_data.each{|p| p["name"] = p["name"].gsub "'", "&quot;"}
     @current_time = (Time.now + 12.hours).to_i
 
   end

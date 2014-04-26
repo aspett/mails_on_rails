@@ -45,5 +45,9 @@ $ ->
       "aoColumns": [null, null,null,null,null,null,{ "sType": "numeric", "sClass": "align-right" }, {"bSortable": false}]
       "aaSorting": [[6, "desc"]]
     )
-    $('tr.route').on 'click', ->
+    $('body').on 'click', 'tr.route', ->
       window.location.href = $(this).data('url')
+    $('body').on 'mouseenter', 'tr.route', ->
+      $(this).addClass('highlighted')
+    $('body').on 'mouseleave', 'tr.route', ->
+      $(this).removeClass('highlighted')

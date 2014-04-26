@@ -75,6 +75,7 @@ $ ->
     service = new google.maps.DirectionsService
     for route in routes
       path_for_route = (route) ->
+        console.log routes
         origin = get_place(route.origin_id)
         destination = get_place(route.destination_id)
         console.log route.transport_type

@@ -11,6 +11,15 @@ class MailRoutesController < ApplicationController
     if !@mail_route.active?
       redirect_to :mail_routes
     end
+
+    b = BusinessManagement.new
+    @profit = b.route_profits[@mail_route] || 0
+    @revenue = b.route_revenue[@mail_route] || 0
+    @expenditure = b.route_expenditure[@mail_route] || 0
+    @average_time = b.average_times[[@mail_route.origin.name, @mail_route.destination.name, @mail_route.transport_type, @mail_route.priority_string]] || "No mail sent from given origin to destination by any route"
+    @delivery_time = @mail_route.duration * 60
+    @number_mail = b.route_mail_counts[@mail_route] || 0
+    @is_slower = !@average_time.is_a?(String) && @average_time < @delivery_time ? "has-error" : "has-success"
   end
 
   def new

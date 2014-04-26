@@ -48,6 +48,48 @@
 <div class="row">
   <div class="col-md-12"> <%= f.input :start_date, input_html: {disabled: true} %></div>
 </div>
+<hr />
+<h3>Route Statistics</h3>
+<hr />
+<div class="row">
+  <div class="col-md-6">
+    <div class='string input stringish form-group'>
+      <label class='control-label'>Profit down this route</label>
+      <div class='input-group <%= @profit < 0 ? "has-error" : "has-success" %>'>
+        <span class="input-group-addon">$</span>
+        <input class='form-control' type='text' value='<%= number_to_currency @profit, unit: '' %>' disabled />
+      </div>
+    </div>
+    <div class='string input stringish form-group'>
+      <label class='control-label'>Revenue down this route</label>
+      <div class='input-group'>
+        <span class="input-group-addon">$</span>
+        <input class='form-control' type='text' value='<%= number_to_currency @revenue, unit: '' %>' disabled />
+      </div>
+    </div>
+    <div class='string input stringish form-group'>
+      <label class='control-label'>Expenditure down this route</label>
+      <div class='input-group'>
+        <span class="input-group-addon">$</span>
+        <input class='form-control' type='text' value='<%= number_to_currency @expenditure, unit: '' %>' disabled />
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class='string input stringish form-group <%= @is_slower %>'>
+      <label class='control-label'>Average delivery time from <%= @mail_route.origin.name %> to <%= @mail_route.destination.name %></label>
+      <input class='form-control' type='text' value='<%= (@average_time.is_a? String) ? @average_time : format_time(@average_time) %>' disabled/>
+    </div>
+    <div class='string input stringish form-group <%= @is_slower %>'>
+      <label class='control-label'>This route's delivery time from <%= @mail_route.origin.name %> to <%= @mail_route.destination.name %></label>
+      <input class='form-control' type='text' value='<%= format_time(@delivery_time) %>' disabled />
+    </div>
+    <div class='string input stringish form-group'>
+      <label class='control-label'>Amount of mail delivered down this route</label>
+      <input class='form-control' type='text' value='<%= @number_mail %>' disabled />
+    </div>
+  </div>
+</div>
 
 <% end %>
 <%= f.actions do %>
