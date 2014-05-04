@@ -17,3 +17,4 @@
 //= require_tree .
 //= require dataTables/jquery.dataTables
 //= require jquery.ui.all
+//= require d3.dependencyWheel

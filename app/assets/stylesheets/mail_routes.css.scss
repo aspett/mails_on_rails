@@ -8,3 +8,31 @@
 tr.route {
   cursor: pointer;
 }
+
+body#mail_routes_index {
+  tfoot th {
+    padding: 3px;
+  }
+  .form-control {
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+#chart {
+  height: 800px;
+  width: 100%;
+  overflow: hidden;
+  #visualisation {
+    h3,h5 {
+      color: #999;
+    }
+    text-align: center;
+    width: 800px;
+    margin: 0 auto;
+    svg {
+      margin: 0 auto;
+    }
+  }
+}

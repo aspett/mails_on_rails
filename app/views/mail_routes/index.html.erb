@@ -1,24 +1,27 @@
 <div id="mailroute_container">
-  <div class='same_width_button'><%= link_to "Add New Route", new_mail_route_path, class: "btn btn-primary" %></div>
-  <n>
-  <p> <br>Click on a route to edit it</p>
+  <div class='same_width_button'>
+    <%= link_to "Add New Route", new_mail_route_path, class: "btn btn-primary" %>
+    <%= link_to "Toggle visualisation", '#', id: "show-visual", class: "btn btn-success" %>
+  </div>
+  <br />
+  <br />
+  <br />
+  <div id="chart" data-names='<%= @names %>' data-matrix='<%= @matrix %>' style='display:none'><div id="visualisation"><h3>Route connections</h3><h5>*Connection on graph indicates a route between 2 places one way or the other</h5></div></div>
+  <div class='alert alert-info alert-sm'>
+    <span class='glyphicon glyphicon-hand-right'></span>
+     You can view and edit Routes in more detail by clicking on them
+  </div>
   <h1>Active Routes</h1>
-  <table class='table'>
+  <table id='table' class='data_table'>
     <thead>
       <tr>
         <th>ID</th>
         <th>Name</th>
         <th>Company</th>
         <th>Type</th>
-        <th>Max Weight</th>
-        <th>Max Volume</th>
         <th>Priority</th>
-        <th>Cost / Weight</th>
-        <th>Cost / Volume</th>
-        <th>Price / Weight</th>
-        <th>Price / Volume</th>
         <th>Origin</th>
-        <th>Dest.</th>
+        <th>Destination</th>
         <th>Duration (minutes)</th>
         <th>Freq. (minutes)</th>
         <th>Start Date</th>
@@ -31,13 +34,7 @@
         <td><%= mail_route.name %></td>
         <td><%= mail_route.company %></td>
         <td><%= mail_route.transport_type %></td>
-        <td><%= mail_route.maximum_weight %></td>
-        <td><%= mail_route.maximum_volume %></td>
         <td><%= mail_route.priority_string %></td>
-        <td><%= mail_route.cost_per_weight %></td>
-        <td><%= mail_route.cost_per_volume %></td>
-        <td><%= mail_route.price_per_weight %> </td>
-        <td><%= mail_route.price_per_volume %></td>
         <td><%= mail_route.origin.name %></td>
         <td><%= mail_route.destination.name %></td>
         <td><%= mail_route.duration %></td>
@@ -46,6 +43,20 @@
       </tr>
     <% end %>
     </tbody>
+    <tfoot>
+      <tr>
+        <th><input type='text' class='form-control' placeholder='ID'/></th>
+        <th><input type='text' class='form-control' placeholder='Name'/></th>
+        <th><input type='text' class='form-control' placeholder='Company'/></th>
+        <th><input type='text' class='form-control' placeholder='Type'/></th>
+        <th><input type='text' class='form-control' placeholder='Priority'/></th>
+        <th><input type='text' class='form-control' placeholder='Origin'/></th>
+        <th><input type='text' class='form-control' placeholder='Destination'/></th>
+        <th><input type='text' class='form-control' placeholder='Duration'/></th>
+        <th><input type='text' class='form-control' placeholder='Frequency'/></th>
+        <th><input type='text' class='form-control' placeholder='Start Date'/></th>
+      </tr>
+    </tfoot>
   </table>
   <br /><br /><br />
   <hr />
@@ -53,7 +64,7 @@
   <h1>Discontinued Routes</h1>
 
 
-  <table class='table'>
+  <table id='table_2' class='data_table'>
     <thead>
       <tr>
         <th>ID</th>

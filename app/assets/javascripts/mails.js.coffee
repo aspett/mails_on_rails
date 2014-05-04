@@ -20,8 +20,12 @@ $ ->
       "bAutoWidth": true
       "aaSorting": [[5, "desc"], [0, "desc"]]
     )
-    $('tr.route').on 'click', ->
+    $('body').on 'click', 'tr.route', ->
       window.location.href = $(this).data('url')
+    $('body').on 'mouseenter', 'tr.route', ->
+      $(this).addClass('highlighted')
+    $('body').on 'mouseleave', 'tr.route', ->
+      $(this).removeClass('highlighted')
 
   if($('body#mails_show').length > 0)
     $('.table').dataTable(

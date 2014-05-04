@@ -4,6 +4,31 @@ class MailRoutesController < ApplicationController
   def index
     @active_mail_routes = MailRoute.where(active: true)
     @discontinued_mail_routes = MailRoute.where(active: false)
+
+
+    matrix = []
+    all_place_ids = []
+    @active_mail_routes.each{|route| all_place_ids.push route.origin_id, route.destination_id }
+    all_place_ids = all_place_ids.uniq
+    all_places = all_place_ids.map{|id| Place.find(id)}
+    
+    @names = all_places.map{|p| p.name}
+    @matrix = []
+    all_places.each do |place|
+      l_matrix = []
+      all_places.each do |other|
+        one_way = MailRoute.where(origin_id: place.id, destination_id: other.id)
+        two_way = MailRoute.where(origin_id: other.id, destination_id: place.id)
+        if one_way.count > 0 || two_way.count > 0
+          l_matrix.push 1
+        else 
+          l_matrix.push 0
+        end
+      end
+      @matrix.push l_matrix
+    end
+
+    @matrix = @matrix.to_json
   end
 
   def edit
@@ -11,6 +36,15 @@ class MailRoutesController < ApplicationController
     if !@mail_route.active?
       redirect_to :mail_routes
     end
+
+    b = BusinessManagement.new
+    @profit = b.route_profits[@mail_route] || 0
+    @revenue = b.route_revenue[@mail_route] || 0
+    @expenditure = b.route_expenditure[@mail_route] || 0
+    @average_time = b.average_times[[@mail_route.origin.name, @mail_route.destination.name, @mail_route.transport_type, @mail_route.priority_string]] || "No mail sent from given origin to destination by any route"
+    @delivery_time = @mail_route.duration * 60
+    @number_mail = b.route_mail_counts[@mail_route] || 0
+    @is_slower = !@average_time.is_a?(String) && @average_time < @delivery_time ? "has-error" : "has-success"
   end
 
   def new

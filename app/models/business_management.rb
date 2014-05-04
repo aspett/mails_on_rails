@@ -56,6 +56,16 @@ class BusinessManagement
     @profits
   end
 
+  def route_revenue
+    collect_data if @route_to_price.blank?
+    @route_to_price
+  end
+
+  def route_expenditure
+    collect_data if @route_to_cost.blank?
+    @route_to_cost
+  end
+
   def route_mail_counts
     @route_to_number_mail
   end
