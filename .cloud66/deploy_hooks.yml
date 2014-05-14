@@ -1,0 +1,4 @@
+development:
+  last_thing:
+    command: rake db:seed
+    target: rails
