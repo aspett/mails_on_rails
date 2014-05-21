@@ -34,6 +34,15 @@ $ ->
     $('body').on 'mouseleave', 'tr.route', ->
       $(this).removeClass('highlighted')
 
+    data = {packageNames: $('#chart').data('names' ), matrix: $('#chart').data('matrix')}
+    chart = d3.chart.dependencyWheel()
+    d3.select('#visualisation').datum(data).call(chart)
+    console.log $('#chart').data('names')
+    console.log $('#chart').data('matrix')
+
+    $('#show-visual').on 'click', ->
+      $('#chart').slideToggle()
+
   if($('body#mail_routes_new').length > 0 || $('body#mail_routes_create').length > 0)
     $('input.autocomplete-origin').autocomplete(
       source: $('div.autocomplete-origin').data('auto')
@@ -42,11 +51,3 @@ $ ->
       source: $('div.autocomplete-origin').data('auto')
     )
 
-  data = {packageNames: $('#chart').data('names' ), matrix: $('#chart').data('matrix')}
-  chart = d3.chart.dependencyWheel()
-  d3.select('#visualisation').datum(data).call(chart)
-  console.log $('#chart').data('names')
-  console.log $('#chart').data('matrix')
-
-  $('#show-visual').on 'click', ->
-    $('#chart').slideToggle()
