@@ -1,0 +1,10 @@
+development:
+  rails:
+    server:
+      unique_name: www
+      type: BYOC
+      vendor: digitalocean
+      region: 3
+      size: 63
+    configuration:
+      ruby_version: 1.9.3

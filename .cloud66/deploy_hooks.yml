@@ -1,0 +1,8 @@
+development:
+  after_rails:
+    - source: /.cloud66/scripts/dbseed.sh
+      destination: /tmp/dbseed.sh
+      target: rails
+      execute: true
+      run_on: single_server
+      apply_during: build_only
