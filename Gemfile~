@@ -57,7 +57,8 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'capybara'
   gem 'guard-rspec'
-  gem 'libnotify'
+  gem 'growl_notify'
+  gem 'rb-appscript'
 end
 
 # Use debugger
