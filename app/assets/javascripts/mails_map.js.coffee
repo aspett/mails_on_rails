@@ -128,7 +128,7 @@ $ ->
                 )
                 polyLines.push(r)
           )
-        , (if route.transport_type == "Land" then (index+1) * 200 else 0)
+        , (if route.transport_type == "Land" then (index+1) * 250 else 0)
         index += 1
       path_for_route(route)
 
