@@ -232,7 +232,7 @@ Place.create!([
   {name: "Palau", new_zealand: false, lat: 7.51498, lon: 134.58252},
   {name: "Paraguay", new_zealand: false, lat: -23.442503, lon: -58.443832},
   {name: "Qatar", new_zealand: false, lat: 25.354826, lon: 51.183884},
-  {name: "Réunion", new_zealand: false, lat: -21.115141, lon: 55.536384},
+  {name: "Reunion", new_zealand: false, lat: -21.115141, lon: 55.536384},
   {name: "Romania", new_zealand: false, lat: 45.943161, lon: 24.96676},
   {name: "Serbia", new_zealand: false, lat: 44.016521, lon: 21.005859},
   {name: "Russia", new_zealand: false, lat: 61.52401, lon: 105.318756},
