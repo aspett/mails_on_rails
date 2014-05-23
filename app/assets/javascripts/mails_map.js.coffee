@@ -77,10 +77,8 @@ $ ->
     for route in routes
       path_for_route = (route) ->
         setTimeout ->
-          console.log routes
           origin = get_place(route.origin_id)
           destination = get_place(route.destination_id)
-          console.log route.transport_type
           if route.transport_type != "Land"
             color = if route.transport_type == "Air" then "#FF6200" else "#8000FF"
             r = new google.maps.Polyline(
@@ -120,7 +118,7 @@ $ ->
                 r = new google.maps.Polyline(
                   path: [ll(origin.lat,origin.lon),ll(destination.lat,destination.lon)]
                   geodesic: true
-                  strokeColor: '#ff0000'
+                  strokeColor: '#ff00ff'
                   strokeOpacity: 1
                   strokeWeight: 0.9
                   route_id: route.id
@@ -130,7 +128,7 @@ $ ->
                 )
                 polyLines.push(r)
           )
-        , (index+1) * 50
+        , (if route.transport_type == "Land" then (index+1) * 200 else 0)
         index += 1
       path_for_route(route)
 
