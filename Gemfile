@@ -52,9 +52,15 @@ gem 'bcrypt-ruby', '~> 3.1.2'
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
+group :test, :development do
+  gem 'turn'
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'guard-rspec'
+end
+
 # Use debugger
 gem 'debugger', group: [:development, :test]
 gem 'better_errors', group: [:development, :test]
 gem 'c66', group: :development
-gem 'rspec-rails', group: [:development, :test]
 
