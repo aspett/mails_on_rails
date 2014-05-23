@@ -10,6 +10,7 @@ class MailRoute < ActiveRecord::Base
   validate :validate_places_exist
   validate :valid_priority
   validate :no_same_places
+  validates_uniqueness_of :name
 
   validates :name, length: { minimum: 3 }
   validates :company, length: { minimum: 3 }
