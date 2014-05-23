@@ -2,7 +2,6 @@ class UsersController < ApplicationController
   before_action :check_is_manager
 
   def index
-    debugger
     @users = User.all
   end
 
