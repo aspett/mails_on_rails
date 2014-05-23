@@ -130,7 +130,7 @@ $ ->
                 )
                 polyLines.push(r)
           )
-        , (index+1) * 100
+        , (index+1) * 50
         index += 1
       path_for_route(route)
 
