@@ -58,6 +58,11 @@ class MailRoutesController < ApplicationController
 
   def update
     @mail_route = MailRoute.find(params[:id])
+    if !@mail_route.active?
+      flash[:error] = "You can not update a discontinud route."
+      render :edit and return
+    end
+
     if @mail_route.update_attributes(mr_params)
       
       if(!@mail_route.previous_changes.empty?)
