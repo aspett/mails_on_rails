@@ -48,11 +48,13 @@ describe SessionsController do
     end
 
     it 'does not let you log in again' do
+      valid_user
       post :create, valid_user_details, {user_id: User.where(username: 'user1').first.id }
       expect(request.flash[:error]).to_not be_nil
     end
 
     it 'logs out correctly' do
+      valid_user
       delete :delete, {}, {user_id: User.where(username: 'user1').first.id}
       expect(session[:user_id]).to be_nil
     end
