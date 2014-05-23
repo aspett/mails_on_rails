@@ -113,5 +113,33 @@ describe UsersController do
 				expect(User.where(id: clerk_id).first).to be_nil
 			end
 		end
+
+		context 'user tries to create another user' do
+			describe 'valid new user details' do
+				it 'creates new user' do
+					post :create, {user:{username: 'user4', password_confirmation: 'aaaaaaaaaa', password: 'aaaaaaaaaa', role: 'Manager'}}, {user_id: manager_id}
+					expect(request.flash[:success]).to match "User created"
+				end
+
+				it 'new user exists' do
+					post :create, {user:{username: 'user4', password_confirmation: 'aaaaaaaaaa', password: 'aaaaaaaaaa', role: 'Manager'}}, {user_id: manager_id}
+					expect(User.where(username:"user4").first).to_not be_nil
+				end
+			end
+
+			describe 'with in use username' do
+				it 'shows error message' do
+					post :create, {user:{username: 'user1', password_confirmation: 'aaaaaaaaaa', password: 'aaaaaaaaaa', role: 'Manager'}}, {user_id: manager_id}
+					expect(request.flash[:error]).to match "There was an error creating the user"
+				end
+			end
+
+			describe 'with differing passwords' do
+				it 'shows error message' do
+					post :create, {user:{username: 'user4', password_confirmation: 'bbbbbbbb', password: 'aaaaaaaaaa', role: 'Manager'}}, {user_id: manager_id}
+					expect(request.flash[:error]).to match "There was an error creating the user"
+				end
+			end
+		end
 	end
 end
