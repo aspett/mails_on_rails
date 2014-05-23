@@ -56,4 +56,5 @@ gem 'bcrypt-ruby', '~> 3.1.2'
 gem 'debugger', group: [:development, :test]
 gem 'better_errors', group: [:development, :test]
 gem 'c66', group: :development
+gem 'rspec-rails', group: [:development, :test]
 

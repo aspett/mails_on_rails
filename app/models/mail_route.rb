@@ -11,6 +11,18 @@ class MailRoute < ActiveRecord::Base
   validate :valid_priority
   validate :no_same_places
 
+  validates :name, length: { minimum: 3 }
+  validates :company, length: { minimum: 3 }
+  validates :maximum_weight, numericality: { greater_than_or_equal_to: 0.1 }
+  validates :maximum_volume, numericality: { greater_than_or_equal_to: 0.1 }
+  validates :cost_per_weight, numericality: { greater_than_or_equal_to: 0.1 }
+  validates :cost_per_volume, numericality: { greater_than_or_equal_to: 0.1 }
+  validates :price_per_weight, numericality: { greater_than_or_equal_to: 0.1 }
+  validates :price_per_volume, numericality: { greater_than_or_equal_to: 0.1 }
+  validates :duration, numericality: { greater_than_or_equal_to: 1 }
+  validates :frequency, numericality: { greater_than_or_equal_to: 1 }
+
+
   def origin
     begin
       Place.find(self.origin_id)

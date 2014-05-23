@@ -2,6 +2,11 @@ class Mail < ActiveRecord::Base
   has_many :mail_state
   validate :allocate_route
   validate :no_overseas_mail
+  validate :priority_validation
+
+  validates :weight, numericality: { greater_than_or_equal_to: 0.1 }
+  validates :volume, numericality: { greater_than_or_equal_to: 0.1 }
+
   before_save :format_routes
   before_save :format_prices
   before_save :format_costs
@@ -140,7 +145,7 @@ class Mail < ActiveRecord::Base
   end
 
   def no_overseas_mail
-    if !self.origin.new_zealand?
+    if !self.origin.try(:new_zealand?)
       errors.add(:origin_id, "all mail must originate from within New Zealand.")
     end
   end
@@ -325,6 +330,11 @@ class Mail < ActiveRecord::Base
 
   private
 
+  def priority_validation
+    unless [0,1].include? self.priority
+      errors.add(:priority, "must be standard or high priority")
+    end
+  end
   def from_overseas_present
     if self.from_overseas.nil?
       errors.add(:from_overseas, "must select yes or no")

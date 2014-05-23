@@ -3,6 +3,10 @@ class SessionsController < ApplicationController
 
   def create
     #Need a username and password from the form
+    if current_user
+      redirect_to root_url, flash: { error: "You're already logged in." }
+      return
+    end
     if params[:username] && params[:password]
       user = User.where(username: params[:username]).first
       if user && user.authenticate(params[:password])

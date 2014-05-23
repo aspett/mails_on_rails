@@ -16,11 +16,12 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params)
-    if user.save
+    @user = User.new(user_params)
+    if @user.save
       redirect_to users_path, flash: { success: "User created" }
     else
       flash[:error] = "There was an error creating the user"
+      render :new
     end
   end
 
