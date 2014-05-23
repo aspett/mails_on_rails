@@ -94,6 +94,10 @@
 <% end %>
 <%= f.actions do %>
   <%= f.action :submit, :as => :button, button_html: { class: "btn btn-primary" } %>
-  <%= link_to "Discontinue Route", mail_route_path(@mail_route), method: :delete, class: "btn btn-danger", data: { confirm: "This will deactivate the route from future use. Are you sure you wish to do this?" } %>
+  <% if @mail_route.active? %>
+  <%= link_to "Discontinue Route", discontinue_route_path(@mail_route), method: :put, class: "btn btn-danger", data: { confirm: "This will deactivate the route from future use. Are you sure you wish to do this?" } %>
+  <% else %>
+    <%= link_to "Recontinue Route", recontinue_route_path(@mail_route), method: :put, class: "btn btn-info", data: { confirm: "This will recontinue the route. Are you sure you want to do this?" } %>
+  <% end %>
 <% end %>
 <% end %>

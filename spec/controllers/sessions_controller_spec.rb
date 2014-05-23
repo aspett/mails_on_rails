@@ -15,7 +15,7 @@ describe SessionsController do
       { username: 'no', password: 'aaaaaaaaaa' }
     end
 
-    before :all do
+    before :each do
       valid_user
     end
 

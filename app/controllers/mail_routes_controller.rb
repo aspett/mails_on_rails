@@ -33,10 +33,6 @@ class MailRoutesController < ApplicationController
 
   def edit
     @mail_route = MailRoute.find(params[:id])
-    if !@mail_route.active?
-      redirect_to :mail_routes
-    end
-
     b = BusinessManagement.new
     @profit = b.route_profits[@mail_route] || 0
     @revenue = b.route_revenue[@mail_route] || 0
@@ -77,7 +73,7 @@ class MailRoutesController < ApplicationController
     end
   end
 
-  def destroy
+  def discontinue
     @mail_route = MailRoute.find(params[:id])
     if @mail_route.update_column(:active, false)
       b = BusinessEvent.new
@@ -86,6 +82,19 @@ class MailRoutesController < ApplicationController
       redirect_to :mail_routes, flash: { success: "Successfully discontinued the route, '#{@mail_route.name}'" }
     else
       flash[:error] = "There was an error discontinuing the route."
+      render :edit
+    end
+  end
+
+  def recontinue
+    @mail_route = MailRoute.find(params[:id])
+    if @mail_route.try(:update_column, :active, true)
+      b = BusinessEvent.new
+      b.set_recontinue_values(@mail_route)
+      b.save!
+      redirect_to :mail_routes, flash: { success: "Successfully recontinued the route." }
+    else
+      flash[:error] = "There was an error recontinuing this route."
       render :edit
     end
   end

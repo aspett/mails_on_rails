@@ -21,6 +21,12 @@ class BusinessEvent < ActiveRecord::Base
     self.details = details_discontinue_string(mail_route)
   end
   
+  def set_recontinue_values(mail_route)
+    self.date = Time.current + 12.hours
+    self.event_type = 4
+    self.details = details_recontinue_string(mail_route)
+  end
+
   def set_new_route_values(mail_route)
     self.date = Time.current + 12.hours
     self.event_type = 3
@@ -43,6 +49,15 @@ class BusinessEvent < ActiveRecord::Base
   end
 
   def details_discontinue_string(mail_route)
+    attributes = ["name", "origin", "destination", "company"]
+    str = "Route ID: '#{mail_route.id}', "
+    attributes.each do |attr_name|
+      str << "#{attr_name}: '#{mail_route.send(attr_name).to_s}', "
+    end
+    str[0..-3]
+  end
+
+  def details_recontinue_string(mail_route)
     attributes = ["name", "origin", "destination", "company"]
     str = "Route ID: '#{mail_route.id}', "
     attributes.each do |attr_name|

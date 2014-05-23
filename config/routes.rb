@@ -4,7 +4,11 @@ Mails::Application.routes.draw do
   get "business_management/logs", as: "business_logs"
   root 'home#index'
   resources :mails
-  resources :mail_routes #index, show, new, create, edit, delete
+  resources :mail_routes, except: :destroy
+  put "/mail_routes/discontinue/:id" => 'mail_routes#discontinue', as: "discontinue_route"
+  put "/mail_routes/recontinue/:id" => 'mail_routes#recontinue', as: "recontinue_route"
+    #index, show, new, create, edit, delete
+
   resources :users 
   put "/users/:id/promote" => "users#promote", as: "promote_user"
   put "/users/:id/demote" => "users#demote", as: "demote_user"

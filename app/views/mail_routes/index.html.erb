@@ -89,7 +89,7 @@
     </thead>
     <tbody>
     <% @discontinued_mail_routes.each do |mail_route| %>
-      <tr>
+      <tr class='route' data-url='<%= edit_mail_route_url(mail_route) %>'>
         <td><%= mail_route.id %></td>
         <td><%= mail_route.name %></td>
         <td><%= mail_route.company %></td>

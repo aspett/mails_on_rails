@@ -11,7 +11,7 @@
     <% @business_events.each do |business_event| %>
       <tr>
         <td><%= business_event.date.to_s(:db) %></td>
-        <td><%= ["Route Update", "Mail processed", "Discontinued Route", "New Route"][business_event.event_type] %></td>
+        <td><%= ["Route Update", "Mail processed", "Discontinued Route", "New Route", "Recontinued Route"][business_event.event_type] %></td>
         <td><%= business_event.details %></td>
       </tr>
     <% end %>

@@ -1,2 +1,8 @@
-<div class='alert alert-danger'><span class='glyphicon glyphicon-remove'></span> Modifying a route will only have an effect made to mail sent <strong>after</strong> the change is made.<br/>&nbsp;&nbsp;&nbsp;&nbsp;All mail sent before the change will still have it's details honoured from when it was entered.</div>
+<div class='alert alert-danger'><span class='glyphicon glyphicon-remove'></span> 
+<% if @mail_route.active? %>
+  Modifying a route will only have an effect made to mail sent <strong>after</strong> the change is made.<br/>&nbsp;&nbsp;&nbsp;&nbsp;All mail sent before the change will still have it's details honoured from when it was entered.
+<% else %>
+    This route has been discontinued. You can recontinue it. 
+<% end %>
+</div>
 <%= render partial: 'edit_form' %>
