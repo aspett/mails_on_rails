@@ -1,5 +1,6 @@
 class BusinessManagementController < ApplicationController
   before_action :check_logged_in!
+  before_action :check_is_manager, only: [:figures, :index]
 
   def index
     redirect_to business_figures_url
